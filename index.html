@@ -547,7 +547,7 @@
 
         <!-- TAB LISTINO -->
         <div id="tab-listino" class="tab-content">
-            <div class="card" style="background:#262626; border-color:var(--primary);">
+            <div id="card-add-rider" class="card" style="background:#262626; border-color:var(--primary);">
                 <h2 style="color:var(--primary);">+ Aggiungi Nuovo Corridore a Stagione Avviata</h2>
                 <div class="form-group">
                     <label>Nome Corridore (es. cognome n.)</label>
@@ -600,7 +600,7 @@
     <div class="nav-bar">
         <div class="nav-item active" onclick="switchTab('home')">Home</div>
         <div class="nav-item" onclick="switchTab('formazione')">Formazione</div>
-        <div class="nav-item" onclick="switchTab('gara')">Gara</div>
+        <div class="nav-item" id="nav-gara" onclick="switchTab('gara')">Gara</div>
         <div class="nav-item" onclick="switchTab('historico')">Storico</div>
         <div class="nav-item" onclick="switchTab('mercato')">Mercato</div>
         <div class="nav-item" onclick="switchTab('listino')">Listino</div>
@@ -664,12 +664,18 @@
             document.getElementById('lineup-team-display').innerText = userName;
             document.getElementById('market-team-display').innerText = userName;
 
-            // Gestione visibilità scheda Rose (solo per BOGI = '1')
+            // Gestione visibilità funzionalità esclusive BOGI ('1'): scheda Rose, scheda Gara e box Aggiungi Corridore nel Listino
             const navInit = document.getElementById('nav-init');
+            const navGara = document.getElementById('nav-gara');
+            const cardAddRider = document.getElementById('card-add-rider');
             if (userId === '1') {
                 navInit.style.display = 'block';
+                navGara.style.display = 'block';
+                cardAddRider.style.display = 'block';
             } else {
                 navInit.style.display = 'none';
+                navGara.style.display = 'none';
+                cardAddRider.style.display = 'none';
             }
 
             // Aggiorna le viste
