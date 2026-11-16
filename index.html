@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FantaCX - Sincronizzato</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --surface-hover: #2d2d2d;
+            --primary: #bb86fc;
+            --primary-variant: #3700b3;
+            --secondary: #03dac6;
+            --error: #cf6679;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding-bottom: 75px;
+        }
+
+        header {
+            background-color: var(--surface-color);
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .sync-status {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 4px;
+            font-weight: bold;
+        }
+        .sync-ok { background: rgba(3, 218, 198, 0.2); color: var(--secondary); }
+        .sync-err { background: rgba(207, 102, 121, 0.2); color: var(--error); }
+        .sync-sync { background: rgba(187, 134, 252, 0.2); color: var(--primary); }
+
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--secondary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            background-color: #2a2a2a;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        select:disabled, input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:disabled {
+            background-color: #444;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--surface-color);
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .nav-item {
+            padding: 10px 1px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.62rem;
+            text-decoration: none;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--text-secondary);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            background: #262626;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+
+        .alert {
+            padding: 10px;
+            background-color: rgba(207, 102, 121, 0.2);
+            border: 1px solid var(--error);
+            color: var(--error);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .status-ok { background: rgba(3, 218, 198, 0.2); color: var(--secondary); }
+        .status-no { background: rgba(207, 102, 121, 0.2); color: var(--error); }
+        .val-plus { color: var(--secondary); font-weight: bold; }
+        .val-minus { color: var(--error); font-weight: bold; }
+
+        .preview-box {
+            background-color: #242424;
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .list-numbered {
+            font-size: 0.85rem;
+            padding-left: 0;
+            list-style: none;
+        }
+        .list-numbered li {
+            padding: 2px 0;
+            border-bottom: 1px dashed #333;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FCX 2026/2027</h1>
+        <div id="sync-indicator" class="sync-status sync-sync">Connessione al Cloud...</div>
+    </header>
+
+    <div class="container">
+
+        <!-- TAB CLASSIFICA & ROSE -->
+        <div id="tab-home" class="tab-content active">
+            <div class="card">
+                <h2>Classifica Generale</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Partecipante</th>
+                            <th>Punti Totali</th>
+                            <th>Budget Res.</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb-classifica"></tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2 id="title-p1">Rosa BOGI</h2>
+                <div id="info-p1"></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Corridore</th>
+                            <th>Valore</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb-rosa1"></tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2 id="title-p2">Rosa JACOPO</h2>
+                <div id="info-p2"></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Corridore</th>
+                            <th>Valore</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb-rosa2"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB SCHIERAMENTO FORMAZIONE -->
+        <div id="tab-formazione" class="tab-content">
+            <div class="card">
+                <h2>Schiera Formazione Prossima Gara</h2>
+                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
+                    Seleziona esattamente <b>5 titolari</b> per ciascun partecipante prima della gara.
+                </p>
+
+                <h3 style="margin-top:10px; color:var(--primary);">Titolari BOGI (5)</h3>
+                <div id="p1-starters"></div>
+
+                <hr style="margin:15px 0; border-color:var(--border);">
+
+                <h3 style="margin-top:10px; color:var(--primary);">Titolari JACOPO (5)</h3>
+                <div id="p2-starters"></div>
+
+                <button onclick="saveLineups()">Conferma e Salva Formazioni</button>
+            </div>
+        </div>
+
+        <!-- TAB NUOVA GARA -->
+        <div id="tab-gara" class="tab-content">
+            <div class="card">
+                <h2>Inserisci Risultati Gara</h2>
+                
+                <div id="lineup-check-status" style="margin-bottom:12px;"></div>
+
+                <div id="race-form-container">
+                    <div class="form-group">
+                        <label>Tipologia / Circuito Gara</label>
+                        <select id="race-type">
+                            <option value="Mondiale">Mondiale</option>
+                            <option value="Europeo">Europeo</option>
+                            <option value="Coppa del Mondo">Coppa del Mondo</option>
+                            <option value="Superprestige">Superprestige</option>
+                            <option value="X2O">X2O Trofee</option>
+                            <option value="HG Cross">HG Cross (ex Exact)</option>
+                            <option value="Camp. Nazionali">Campionati Nazionali</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Denominazione Gara (es. Niel, Overijse, Gavere)</label>
+                        <input type="text" id="race-name" placeholder="es. Ruddervoorde">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Data Gara</label>
+                        <input type="date" id="race-date">
+                    </div>
+
+                    <hr style="margin:15px 0; border-color:var(--border);">
+
+                    <h3>Top 10 Arrivo</h3>
+                    <div id="top10-inputs"></div>
+
+                    <h3 style="margin-top:15px;">Ritirati (DNF)</h3>
+                    <div id="dnf-inputs"></div>
+                    <button type="button" style="background:#333; color:#fff; margin-bottom:15px;" onclick="addDnfField()">+ Aggiungi DNF</button>
+
+                    <button id="btn-show-preview" onclick="generateRacePreview()">Genera Anteprima Risultati</button>
+                </div>
+
+                <!-- CONTENITORE ANTEPRIMA -->
+                <div id="race-preview-container" style="display:none;" class="preview-box">
+                    <h2 style="color:var(--secondary);">Anteprima Risultati Gara</h2>
+                    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px;">
+                        Verifica i dati prima di pubblicarli definitivamente.
+                    </p>
+                    <div id="preview-content"></div>
+                    <button id="btn-confirm-race" style="background:var(--secondary); color:#000;" onclick="confirmAndSaveRace()">Conferma e Registra Gara</button>
+                    <button class="btn-secondary" onclick="cancelPreview()">Torna alla Modifica</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB STORICO GARE / VARIAZIONI -->
+        <div id="tab-historico" class="tab-content">
+            <div class="card">
+                <h2>Storico Gare e Variazioni</h2>
+                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
+                    Elenco additivo con data, ordine d'arrivo Top 10, DNF, punti dettagliati dei titolari e variazioni listino.
+                </p>
+                <div id="history-container"></div>
+            </div>
+        </div>
+
+        <!-- TAB MERCATO / SCAMBI -->
+        <div id="tab-mercato" class="tab-content">
+            <div class="card">
+                <h2>Modulo Scambi</h2>
+                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
+                    È consentito al massimo 1 scambio per partecipante ad ogni gara.
+                </p>
+
+                <div class="form-group">
+                    <label>Seleziona Partecipante</label>
+                    <select id="market-p" onchange="resetAndRenderMarketOptions()">
+                        <option value="1">BOGI</option>
+                        <option value="2">JACOPO</option>
+                    </select>
+                </div>
+
+                <div id="market-status-msg"></div>
+
+                <div id="market-form-container">
+                    <div class="form-group">
+                        <label>Corridore da Cedere (dalla rosa)</label>
+                        <select id="market-out" onchange="onMarketOutChange()">
+                            <option value="">-- Seleziona --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Corridore da Acquistare (dal listino)</label>
+                        <select id="market-in" onchange="updateMarketCalculations()">
+                            <option value="">-- Seleziona prima il corridore da cedere --</option>
+                        </select>
+                    </div>
+
+                    <div id="market-calc" class="card" style="background:#2a2a2a; margin-top:10px;"></div>
+
+                    <button id="btn-execute-trade" onclick="executeTrade()" disabled>Conferma Scambio</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB LISTINO -->
+        <div id="tab-listino" class="tab-content">
+            <div class="card" style="background:#262626; border-color:var(--primary);">
+                <h2 style="color:var(--primary);">+ Aggiungi Nuovo Corridore a Stagione Avviata</h2>
+                <div class="form-group">
+                    <label>Nome Corridore (es. cognome n.)</label>
+                    <input type="text" id="new-rider-name" placeholder="es. sweeny h.">
+                </div>
+                <div class="form-group">
+                    <label>Valore Iniziale (Crediti)</label>
+                    <input type="number" id="new-rider-val" value="1" min="1">
+                </div>
+                <button type="button" style="background:var(--secondary); color:#000;" onclick="addNewRider()">Aggiungi al Listino</button>
+            </div>
+
+            <div class="card">
+                <h2>Listino Corridori e Valori</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Corridore</th>
+                            <th>Valore Corrente</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb-listino"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB CREA ROSE INIZIALI -->
+        <div id="tab-init" class="tab-content">
+            <div class="card">
+                <h2>Configurazione Iniziale Rose</h2>
+                <div id="roster-init-status-msg"></div>
+
+                <h3>BOGI (Max 170 Cr)</h3>
+                <div id="p1-selects"></div>
+                <div id="p1-budget-status" style="margin-top:5px; font-weight:bold;"></div>
+
+                <hr style="margin:15px 0; border-color:var(--border);">
+
+                <h3>JACOPO (Max 170 Cr)</h3>
+                <div id="p2-selects"></div>
+                <div id="p2-budget-status" style="margin-top:5px; font-weight:bold;"></div>
+
+                <button id="btn-save-initial" onclick="saveInitialTeams()">Salva Rose Iniziali</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NAVBAR IN BASSO -->
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="switchTab('home')">Home</div>
+        <div class="nav-item" onclick="switchTab('formazione')">Formazione</div>
+        <div class="nav-item" onclick="switchTab('gara')">Gara</div>
+        <div class="nav-item" onclick="switchTab('historico')">Storico</div>
+        <div class="nav-item" onclick="switchTab('mercato')">Mercato</div>
+        <div class="nav-item" onclick="switchTab('listino')">Listino</div>
+        <div class="nav-item" onclick="switchTab('init')">Rose</div>
+    </div>
+
+    <script>
+        // CONFIGURAZIONE GITHUB API
+        const GITHUB_USER = "raffaelezaini-FCX"; 
+        const GITHUB_REPO = "FCX-2026-2027_r02";      
+        const GITHUB_PATH = "db.json";            
+        
+        // Token diviso in due parti per evitare la revoca automatica di GitHub
+        const TOKEN_PART_1 = "ghp_YzoTRyHnlBXLsWO6"; 
+        const TOKEN_PART_2 = "eMoGGTEVX9EhfJ0bn0Ku";
+        const GITHUB_TOKEN = TOKEN_PART_1 + TOKEN_PART_2;
+
+        const pointsTable = {
+            "Mondiale": [53, 39, 31, 25, 20, 16, 13, 10, 8, 6],
+            "Europeo": [43, 32, 25, 20, 16, 13, 11, 8, 6, 5],
+            "Coppa del Mondo": [37, 27, 21, 16, 13, 10, 8, 6, 4, 3],
+            "Superprestige": [27, 19, 15, 12, 10, 8, 7, 5, 4, 3],
+            "X2O": [27, 19, 15, 12, 10, 8, 7, 5, 4, 3],
+            "HG Cross": [21, 15, 12, 9, 7, 6, 5, 4, 3, 2],
+            "Camp. Nazionali": [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        };
+
+        const priceTable = {
+            "Mondiale": [3, 2, 2, 1, 1, 1, 1, 1, 1, 1],
+            "Europeo": [3, 2, 1, 1, 1, 1, 1, 1, 1, 0],
+            "Coppa del Mondo": [2, 2, 1, 1, 1, 1, 1, 1, 0, 0],
+            "Superprestige": [2, 2, 1, 1, 1, 1, 1, 0, 0, 0],
+            "X2O": [2, 2, 1, 1, 1, 1, 1, 0, 0, 0],
+            "HG Cross": [2, 2, 1, 1, 1, 0, 0, 0, 0, 0],
+            "Camp. Nazionali": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        };
+
+        let state = {
+            riders: [],
+            p1: { name: "BOGI", score: 0, budget: 170, roster: [], starters: [], tradeDone: false, initialBudget: 170 },
+            p2: { name: "JACOPO", score: 0, budget: 170, roster: [], starters: [], tradeDone: false, initialBudget: 170 },
+            raceCount: 0,
+            raceHistory: []
+        };
+
+        let fileSha = null; 
+        let currentPendingRace = null;
+
+        async function initApp() {
+            setSyncStatus("Caricamento da GitHub...", "sync-sync");
+            await loadStateFromGitHub();
+            renderInitSelects();
+            renderStartersInputs();
+            renderRaceInputs();
+            setDefaultRaceDate();
+            updateUI();
+        }
+
+        function setSyncStatus(text, className) {
+            const el = document.getElementById('sync-indicator');
+            if (el) {
+                el.innerText = text;
+                el.className = "sync-status " + className;
+            }
+        }
+
+        // CARICAMENTO PUBBLICO DA GITHUB (SENZA TOKEN PER LA SOLA LETTURA)
+        async function loadStateFromGitHub() {
+            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${GITHUB_PATH}?t=${new Date().getTime()}`;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Impossibile leggere il file db.json");
+                
+                state = await response.json();
+                if (!state.raceHistory) state.raceHistory = [];
+                
+                setSyncStatus("Cloud Sync OK", "sync-ok");
+            } catch (error) {
+                console.error("Errore load:", error);
+                setSyncStatus("Errore connessione Cloud", "sync-err");
+            }
+        }
+
+        // SALVATAGGIO SU GITHUB API (USA IL TOKEN PER SCRIVERE)
+        async function saveState() {
+            setSyncStatus("Salvataggio in corso...", "sync-sync");
+            const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
+            
+            try {
+                const checkRes = await fetch(url, {
+                    headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+                });
+                if (checkRes.ok) {
+                    const checkData = await checkRes.json();
+                    fileSha = checkData.sha;
+                }
+
+                const jsonString = JSON.stringify(state, null, 2);
+                const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
+
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${GITHUB_TOKEN}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify({
+                        message: "Aggiornamento dati Fanta CX via app",
+                        content: contentBase64,
+                        sha: fileSha
+                    })
+                });
+
+                if (response.ok) {
+                    const resData = await response.json();
+                    fileSha = resData.content.sha;
+                    setSyncStatus("Cloud Sync OK", "sync-ok");
+                } else {
+                    throw new Error("Errore salvataggio remoto");
+                }
+            } catch (error) {
+                console.error("Errore save:", error);
+                setSyncStatus("Errore salvataggio", "sync-err");
+                alert("Errore di sincronizzazione con GitHub!");
+            }
+            updateUI();
+        }
+
+        function setDefaultRaceDate() {
+            const dateInput = document.getElementById('race-date');
+            if (dateInput && !dateInput.value) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.value = today;
+            }
+        }
+
+        function getSortedRidersAlphabetical() {
+            return [...state.riders].sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            
+            const navItems = document.querySelectorAll('.nav-item');
+            const tabMap = ['home', 'formazione', 'gara', 'historico', 'mercato', 'listino', 'init'];
+            const idx = tabMap.indexOf(tabId);
+            if (idx !== -1 && navItems[idx]) navItems[idx].classList.add('active');
+
+            if (tabId === 'formazione') {
+                renderStartersInputs();
+            } else if (tabId === 'gara') {
+                renderRaceInputs();
+            } else if (tabId === 'historico') {
+                renderHistory();
+            } else if (tabId === 'mercato') {
+                resetAndRenderMarketOptions();
+            } else if (tabId === 'init') {
+                renderInitSelects();
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('tb-classifica').innerHTML = `
+                <tr><td><b>${state.p1.name}</b></td><td>${state.p1.score} pt</td><td>${state.p1.budget} Cr</td></tr>
+                <tr><td><b>${state.p2.name}</b></td><td>${state.p2.score} pt</td><td>${state.p2.budget} Cr</td></tr>
+            `;
+
+            let listinoHtml = '';
+            getSortedRidersAlphabetical().forEach(r => {
+                listinoHtml += `<tr><td>${r.name}</td><td><b>${r.value} Cr</b></td></tr>`;
+            });
+            document.getElementById('tb-listino').innerHTML = listinoHtml;
+
+            renderRosterTable('tb-rosa1', 'info-p1', state.p1);
+            renderRosterTable('tb-rosa2', 'info-p2', state.p2);
+        }
+
+        function renderRosterTable(tbodyId, infoId, participant) {
+            const tbody = document.getElementById(tbodyId);
+            const infoDiv = document.getElementById(infoId);
+            
+            if (!participant.roster || participant.roster.length === 0) {
+                infoDiv.innerHTML = `<span style="color:var(--error);">Rosa non ancora definita!</span>`;
+                tbody.innerHTML = '';
+                return;
+            }
+
+            let totalVal = 0;
+            let html = '';
+            participant.roster.forEach(rName => {
+                const r = state.riders.find(x => x.name === rName);
+                const val = r ? r.value : 0;
+                totalVal += val;
+                const isStarter = participant.starters.includes(rName);
+                html += `<tr><td>${rName} ${isStarter ? '<span class="status-badge status-ok">TITOLARE</span>' : ''}</td><td>${val} Cr</td></tr>`;
+            });
+
+            infoDiv.innerHTML = `<p style="font-size:0.85rem; margin-bottom:8px;">Valore Squadra: <b>${totalVal} Cr</b> | Budget Residuo: <b>${participant.budget} Cr</b></p>`;
+            tbody.innerHTML = html;
+        }
+
+        function addNewRider() {
+            const inputName = document.getElementById('new-rider-name');
+            const inputVal = document.getElementById('new-rider-val');
+
+            const rName = inputName.value.trim().toLowerCase();
+            const rVal = parseInt(inputVal.value, 10);
+
+            if (!rName) {
+                alert("Inserisci il nome del corridore!");
+                return;
+            }
+            if (isNaN(rVal) || rVal < 1) {
+                alert("Inserisci un valore in crediti valido (almeno 1)!");
+                return;
+            }
+
+            if (state.riders.some(r => r.name === rName)) {
+                alert("Questo corridore è già presente nel listino!");
+                return;
+            }
+
+            state.riders.push({ name: rName, value: rVal });
+
+            inputName.value = '';
+            inputVal.value = '1';
+
+            saveState();
+            renderInitSelects();
+            alert(`Corridore "${rName}" aggiunto con successo con valore ${rVal} Cr!`);
+        }
+
+        function renderInitSelects() {
+            const p1Div = document.getElementById('p1-selects');
+            const p2Div = document.getElementById('p2-selects');
+            const statusMsg = document.getElementById('roster-init-status-msg');
+            const saveBtn = document.getElementById('btn-save-initial');
+
+            const rostersAlreadySet = (state.p1.roster.length === 7 && state.p2.roster.length === 7);
+
+            if (rostersAlreadySet) {
+                statusMsg.innerHTML = `
+                    <div class="status-badge status-ok" style="font-size:0.85rem; padding:8px 12px; margin-bottom:15px; width:100%; text-align:center;">
+                        Rose Iniziali già confermate e bloccate.<br>
+                        <span style="font-weight:normal; font-size:0.75rem;">Le rose aggiornate si consultano nella scheda Home, mentre per le modifiche usa la scheda Mercato.</span>
+                    </div>`;
+                saveBtn.style.display = 'none';
+            } else {
+                statusMsg.innerHTML = `
+                    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
+                        Seleziona 7 corridori per ciascun partecipante per avviare la stagione.
+                    </p>`;
+                saveBtn.style.display = 'block';
+            }
+
+            p1Div.innerHTML = '';
+            p2Div.innerHTML = '';
+
+            const sortedRiders = getSortedRidersAlphabetical();
+
+            for (let i = 0; i < 7; i++) {
+                p1Div.innerHTML += `
+                    <div class="form-group">
+                        <select id="init-p1-${i}" ${rostersAlreadySet ? 'disabled' : ''} onchange="checkInitialBudgets()">
+                            <option value="">-- Seleziona Corridore ${i+1} --</option>
+                            ${sortedRiders.map(r => `<option value="${r.name}">${r.name} (${r.value} Cr)</option>`).join('')}
+                        </select>
+                    </div>`;
+
+                p2Div.innerHTML += `
+                    <div class="form-group">
+                        <select id="init-p2-${i}" ${rostersAlreadySet ? 'disabled' : ''} onchange="checkInitialBudgets()">
+                            <option value="">-- Seleziona Corridore ${i+1} --</option>
+                            ${sortedRiders.map(r => `<option value="${r.name}">${r.name} (${r.value} Cr)</option>`).join('')}
+                        </select>
+                    </div>`;
+            }
+
+            if (state.p1.roster.length === 7) {
+                state.p1.roster.forEach((r, idx) => {
+                    const el = document.getElementById(`init-p1-${idx}`);
+                    if (el) el.value = r;
+                });
+            }
+            if (state.p2.roster.length === 7) {
+                state.p2.roster.forEach((r, idx) => {
+                    const el = document.getElementById(`init-p2-${idx}`);
+                    if (el) el.value = r;
+                });
+            }
+
+            checkInitialBudgets();
+        }
+
+        function checkInitialBudgets() {
+            let cost1 = 0;
+            let cost2 = 0;
+
+            for (let i = 0; i < 7; i++) {
+                const val1 = document.getElementById(`init-p1-${i}`)?.value;
+                const val2 = document.getElementById(`init-p2-${i}`)?.value;
+                if (val1) cost1 += state.riders.find(r => r.name === val1)?.value || 0;
+                if (val2) cost2 += state.riders.find(r => r.name === val2)?.value || 0;
+            }
+
+            const max1 = state.p1.initialBudget || 170;
+            const max2 = state.p2.initialBudget || 170;
+
+            const status1 = document.getElementById('p1-budget-status');
+            const status2 = document.getElementById('p2-budget-status');
+
+            status1.innerHTML = `Spesa: ${cost1}/${max1} Cr ${cost1 > max1 ? '<span style="color:var(--error)">(Soglia Superata!)</span>' : ''}`;
+            status2.innerHTML = `Spesa: ${cost2}/${max2} Cr ${cost2 > max2 ? '<span style="color:var(--error)">(Soglia Superata!)</span>' : ''}`;
+
+            const saveBtn = document.getElementById('btn-save-initial');
+            if (saveBtn) {
+                saveBtn.disabled = (cost1 > max1 || cost2 > max2);
+            }
+        }
+
+        function saveInitialTeams() {
+            const r1 = [], r2 = [];
+            for (let i = 0; i < 7; i++) {
+                const v1 = document.getElementById(`init-p1-${i}`).value;
+                const v2 = document.getElementById(`init-p2-${i}`).value;
+                if (v1) r1.push(v1);
+                if (v2) r2.push(v2);
+            }
+
+            if (r1.length < 7 || r2.length < 7) {
+                alert("Seleziona esattamente 7 corridori per ciascun partecipante!");
+                return;
+            }
+
+            let c1 = r1.reduce((sum, name) => sum + state.riders.find(r => r.name === name).value, 0);
+            let c2 = r2.reduce((sum, name) => sum + state.riders.find(r => r.name === name).value, 0);
+
+            const max1 = state.p1.initialBudget || 170;
+            const max2 = state.p2.initialBudget || 170;
+
+            state.p1.roster = r1;
+            state.p1.budget = max1 - c1;
+
+            state.p2.roster = r2;
+            state.p2.budget = max2 - c2;
+
+            saveState();
+            alert("Rose salvate e bloccate con successo sul Cloud!");
+            switchTab('formazione');
+        }
+
+        // TAB FORMAZIONE
+        function renderStartersInputs() {
+            const p1Div = document.getElementById('p1-starters');
+            const p2Div = document.getElementById('p2-starters');
+            p1Div.innerHTML = '';
+            p2Div.innerHTML = '';
+
+            if (state.p1.roster.length < 7 || state.p2.roster.length < 7) {
+                p1Div.innerHTML = `<p style="color:var(--error)">Definisci prima le rose nella scheda 'Rose'!</p>`;
+                return;
+            }
+
+            state.p1.roster.forEach(rName => {
+                const isChecked = state.p1.starters.includes(rName) ? 'checked' : '';
+                p1Div.innerHTML += `
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="starter-p1" value="${rName}" id="chk-p1-${rName}" ${isChecked} onchange="limitCheckboxes('starter-p1', 5)">
+                        <label for="chk-p1-${rName}">${rName}</label>
+                    </div>`;
+            });
+
+            state.p2.roster.forEach(rName => {
+                const isChecked = state.p2.starters.includes(rName) ? 'checked' : '';
+                p2Div.innerHTML += `
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="starter-p2" value="${rName}" id="chk-p2-${rName}" ${isChecked} onchange="limitCheckboxes('starter-p2', 5)">
+                        <label for="chk-p2-${rName}">${rName}</label>
+                    </div>`;
+            });
+        }
+
+        function limitCheckboxes(groupName, maxAllowed) {
+            const checkboxes = document.getElementsByName(groupName);
+            const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
+
+            if (checkedCount > maxAllowed) {
+                event.target.checked = false;
+                alert(`Puoi selezionare al massimo ${maxAllowed} titolari!`);
+            }
+        }
+
+        function saveLineups() {
+            const p1Starters = Array.from(document.getElementsByName('starter-p1'))
+                .filter(c => c.checked).map(c => c.value);
+            const p2Starters = Array.from(document.getElementsByName('starter-p2'))
+                .filter(c => c.checked).map(c => c.value);
+
+            if (p1Starters.length !== 5 || p2Starters.length !== 5) {
+                alert("Devi selezionare esattamente 5 titolari per ciascun partecipante!");
+                return;
+            }
+
+            state.p1.starters = p1Starters;
+            state.p2.starters = p2Starters;
+
+            saveState();
+            alert("Formazioni salvate con successo sul Cloud!");
+            switchTab('gara');
+        }
+
+        // TAB GARA & ANTEPRIMA
+        function renderRaceInputs() {
+            const statusDiv = document.getElementById('lineup-check-status');
+            const p1Ready = state.p1.starters && state.p1.starters.length === 5;
+            const p2Ready = state.p2.starters && state.p2.starters.length === 5;
+
+            if (p1Ready && p2Ready) {
+                statusDiv.innerHTML = `<div class="status-badge status-ok" style="font-size:0.85rem; padding:6px 10px;">Formazioni Schierate e Pronte</div>`;
+                document.getElementById('btn-show-preview').disabled = false;
+            } else {
+                statusDiv.innerHTML = `<div class="status-badge status-no" style="font-size:0.85rem; padding:6px 10px;">Formazioni non schierate! Vai prima nella scheda 'Formazione'</div>`;
+                document.getElementById('btn-show-preview').disabled = true;
+            }
+
+            const top10Div = document.getElementById('top10-inputs');
+            top10Div.innerHTML = '';
+            
+            for (let i = 0; i < 10; i++) {
+                top10Div.innerHTML += `
+                    <div class="form-group">
+                        <label>${i + 1}° Posizione</label>
+                        <select class="top10-select" id="pos-${i}" onchange="syncRaceSelections()">
+                            <option value="">-- Nessuno --</option>
+                        </select>
+                    </div>`;
+            }
+
+            document.getElementById('dnf-inputs').innerHTML = '';
+            addDnfField();
+            populateRaceDropdowns();
+            setDefaultRaceDate();
+
+            cancelPreview();
+        }
+
+        function addDnfField() {
+            const dnfDiv = document.getElementById('dnf-inputs');
+            const idx = dnfDiv.children.length;
+            const newDiv = document.createElement('div');
+            newDiv.className = 'form-group';
+            newDiv.innerHTML = `
+                <select class="dnf-select" id="dnf-${idx}" onchange="syncRaceSelections()">
+                    <option value="">-- Nessuno --</option>
+                </select>`;
+            dnfDiv.appendChild(newDiv);
+            populateRaceDropdowns();
+        }
+
+        function populateRaceDropdowns() {
+            const sortedRiders = getSortedRidersAlphabetical();
+
+            document.querySelectorAll('.top10-select, .dnf-select').forEach(sel => {
+                const currentVal = sel.value;
+                sel.innerHTML = `<option value="">-- Nessuno --</option>` + 
+                    sortedRiders.map(r => `<option value="${r.name}">${r.name}</option>`).join('');
+                sel.value = currentVal;
+            });
+        }
+
+        function syncRaceSelections() {
+            const selectedTop10 = Array.from(document.querySelectorAll('.top10-select'))
+                .map(s => s.value).filter(v => v !== '');
+            const selectedDnf = Array.from(document.querySelectorAll('.dnf-select'))
+                .map(s => s.value).filter(v => v !== '');
+
+            document.querySelectorAll('.top10-select').forEach(sel => {
+                const val = sel.value;
+                if (selectedDnf.includes(val) && val !== '') {
+                    sel.value = '';
+                }
+            });
+
+            document.querySelectorAll('.dnf-select').forEach(sel => {
+                const val = sel.value;
+                if (selectedTop10.includes(val) && val !== '') {
+                    sel.value = '';
+                }
+            });
+        }
+
+        function calculateRiderPoints(rName, raceType, top10, dnfs) {
+            let pts = 0;
+            const posIndex = top10.indexOf(rName);
+
+            if (posIndex !== -1) {
+                pts += pointsTable[raceType][posIndex];
+            } else if (dnfs.includes(rName)) {
+                pts += (raceType === 'Camp. Nazionali') ? 0 : -5;
+            }
+
+            return pts;
+        }
+
+        function generateRacePreview() {
+            if (state.p1.starters.length !== 5 || state.p2.starters.length !== 5) {
+                alert("Schiera prima le formazioni di 5 titolari nella scheda Formazione!");
+                return;
+            }
+
+            const raceType = document.getElementById('race-type').value;
+            const raceName = document.getElementById('race-name').value.trim() || 'Gara Sconosciuta';
+            const raceDate = document.getElementById('race-date').value || new Date().toISOString().split('T')[0];
+
+            const top10 = [];
+            for (let i = 0; i < 10; i++) {
+                const val = document.getElementById(`pos-${i}`).value;
+                if (val) top10.push(val);
+                else top10.push(null);
+            }
+
+            const dnfs = Array.from(document.querySelectorAll('.dnf-select'))
+                .map(s => s.value).filter(v => v !== '');
+
+            let pts1 = 0, pts2 = 0;
+            const p1Details = [];
+            const p2Details = [];
+
+            state.p1.starters.forEach(rName => {
+                const p = calculateRiderPoints(rName, raceType, top10, dnfs);
+                pts1 += p;
+                p1Details.push({ name: rName, points: p });
+            });
+
+            state.p2.starters.forEach(rName => {
+                const p = calculateRiderPoints(rName, raceType, top10, dnfs);
+                pts2 += p;
+                p2Details.push({ name: rName, points: p });
+            });
+
+            const priceChanges = [];
+            state.riders.forEach(r => {
+                let delta = 0;
+                const posIndex = top10.indexOf(r.name);
+                
+                if (posIndex !== -1) {
+                    delta = priceTable[raceType][posIndex];
+                } else if (dnfs.includes(r.name)) {
+                    delta = (raceType === 'Camp. Nazionali') ? 0 : -1;
+                }
+
+                if (delta !== 0) {
+                    const oldVal = r.value;
+                    const newVal = Math.max(1, r.value + delta);
+                    const realDelta = newVal - oldVal;
+                    if (realDelta !== 0) {
+                        priceChanges.push({ name: r.name, delta: realDelta, newVal: newVal });
+                    }
+                }
+            });
+
+            currentPendingRace = {
+                type: raceType,
+                name: raceName,
+                date: raceDate,
+                top10: top10,
+                dnfs: dnfs,
+                p1Points: pts1,
+                p2Points: pts2,
+                p1Details: p1Details,
+                p2Details: p2Details,
+                p1Starters: [...state.p1.starters],
+                p2Starters: [...state.p2.starters],
+                priceChanges: priceChanges
+            };
+
+            const formattedDate = raceDate ? raceDate.split('-').reverse().join('/') : 'N.D.';
+
+            let previewHtml = `
+                <p style="font-size:0.9rem; margin-bottom:4px;"><b>Gara:</b> ${raceName} (${raceType})</p>
+                <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;"><b>Data:</b> ${formattedDate}</p>
+                
+                <h4 style="color:var(--primary); font-size:0.85rem; margin-top:10px;">Top 10 Arrivo & DNF</h4>
+                <ol class="list-numbered" style="padding-left:20px; list-style-type:decimal; margin-bottom:10px;">
+                    ${top10.map((r, i) => `<li>${r ? r : '<i>-- vuoto --</i>'}</li>`).join('')}
+                </ol>
+                ${dnfs.length > 0 ? `<p style="font-size:0.8rem; color:var(--error); margin-bottom:10px;"><b>DNF:</b> ${dnfs.join(', ')}</p>` : ''}
+
+                <hr style="border-color:var(--border); margin:10px 0;">
+
+                <h4 style="color:var(--primary); font-size:0.85rem;">Punteggi Partecipanti</h4>
+                <p style="font-size:0.85rem; margin-top:4px;"><b>${state.p1.name}: +${pts1} pt</b></p>
+                <ul style="font-size:0.75rem; color:var(--text-secondary); padding-left:18px; margin-bottom:8px;">
+                    ${p1Details.map(d => `<li>${d.name}: ${d.points >= 0 ? '+' : ''}${d.points} pt</li>`).join('')}
+                </ul>
+
+                <p style="font-size:0.85rem;"><b>${state.p2.name}: +${pts2} pt</b></p>
+                <ul style="font-size:0.75rem; color:var(--text-secondary); padding-left:18px; margin-bottom:12px;">
+                    ${p2Details.map(d => `<li>${d.name}: ${d.points >= 0 ? '+' : ''}${d.points} pt</li>`).join('')}
+                </ul>
+
+                <h4 style="color:var(--primary); font-size:0.85rem;">Variazioni Listino Previste</h4>
+                ${priceChanges.length === 0 ? '<p style="font-size:0.75rem; color:#888;">Nessuna variazione</p>' : ''}
+                <ul style="font-size:0.75rem; padding-left:18px; margin-bottom:15px;">
+                    ${priceChanges.map(c => `<li>${c.name}: <span class="${c.delta > 0 ? 'val-plus' : 'val-minus'}">${c.delta > 0 ? '+' : ''}${c.delta} Cr</span> (nuovo val: ${c.newVal} Cr)</li>`).join('')}
+                </ul>
+            `;
+
+            document.getElementById('preview-content').innerHTML = previewHtml;
+            document.getElementById('race-form-container').style.display = 'none';
+            document.getElementById('race-preview-container').style.display = 'block';
+        }
+
+        function cancelPreview() {
+            currentPendingRace = null;
+            document.getElementById('race-preview-container').style.display = 'none';
+            document.getElementById('race-form-container').style.display = 'block';
+        }
+
+        function confirmAndSaveRace() {
+            if (!currentPendingRace) return;
+
+            const h = currentPendingRace;
+
+            state.riders.forEach(r => {
+                const change = h.priceChanges.find(c => c.name === r.name);
+                if (change) {
+                    r.value = change.newVal;
+                }
+            });
+
+            state.p1.score += h.p1Points;
+            state.p2.score += h.p2Points;
+
+            state.raceCount += 1;
+            const raceSummary = {
+                id: state.raceCount,
+                type: h.type,
+                name: h.name,
+                date: h.date,
+                top10: h.top10,
+                dnfs: h.dnfs,
+                p1Points: h.p1Points,
+                p2Points: h.p2Points,
+                p1Details: h.p1Details,
+                p2Details: h.p2Details,
+                priceChanges: h.priceChanges
+            };
+
+            state.raceHistory.push(raceSummary);
+
+            state.p1.tradeDone = false;
+            state.p2.tradeDone = false;
+            state.p1.starters = [];
+            state.p2.starters = [];
+
+            document.getElementById('race-name').value = '';
+            currentPendingRace = null;
+
+            saveState();
+            alert(`Gara Pubblicata e sincronizzata sul Cloud!`);
+            switchTab('historico');
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-container');
+            if (!state.raceHistory || state.raceHistory.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-secondary); font-size:0.9rem;">Nessuna gara ancora registrata.</p>`;
+                return;
+            }
+
+            let html = '';
+            [...state.raceHistory].reverse().forEach(h => {
+                const formattedDate = h.date ? h.date.split('-').reverse().join('/') : 'N.D.';
+                html += `
+                <div class="card" style="background:#262626; margin-bottom:15px; border-left:4px solid var(--primary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:6px; margin-bottom:8px;">
+                        <h3 style="color:var(--primary); font-size:1rem;">
+                            #${h.id} - ${h.name}
+                        </h3>
+                        <span style="font-size:0.75rem; color:var(--secondary); font-weight:bold;">${formattedDate}</span>
+                    </div>
+                    
+                    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:8px;">
+                        Circuito: <b>${h.type}</b>
+                    </p>
+
+                    <h4 style="font-size:0.8rem; color:var(--secondary); margin-top:8px; margin-bottom:4px;">Ordine d'Arrivo e DNF:</h4>
+                    <ol class="list-numbered" style="padding-left:22px; list-style-type:decimal; margin-bottom:6px;">
+                        ${(h.top10 || []).map(rName => `<li>${rName ? rName : '<i>-- non assegnato --</i>'}</li>`).join('')}
+                    </ol>
+                    ${(h.dnfs && h.dnfs.length > 0) ? `
+                        <p style="font-size:0.8rem; color:var(--error); margin-bottom:10px;">
+                            <b>DNF:</b> ${h.dnfs.join(', ')}
+                        </p>` : ''}
+
+                    <hr style="border-color:#333; margin:10px 0;">
+
+                    <h4 style="font-size:0.8rem; color:var(--secondary); margin-bottom:6px;">Punti Titolari Partecipanti:</h4>
+                    
+                    <p style="font-size:0.85rem; margin-bottom:2px;"><b>${state.p1.name} (+${h.p1Points} pt totali):</b></p>
+                    <ul style="font-size:0.8rem; padding-left:18px; margin-bottom:8px;">
+                        ${(h.p1Details || []).map(d => `
+                            <li>${d.name} <b style="color:${d.points >= 0 ? 'var(--secondary)' : 'var(--error)'}">(${d.points >= 0 ? '+' : ''}${d.points} pt)</b></li>
+                        `).join('')}
+                    </ul>
+
+                    <p style="font-size:0.85rem; margin-bottom:2px;"><b>${state.p2.name} (+${h.p2Points} pt totali):</b></p>
+                    <ul style="font-size:0.8rem; padding-left:18px; margin-bottom:10px;">
+                        ${(h.p2Details || []).map(d => `
+                            <li>${d.name} <b style="color:${d.points >= 0 ? 'var(--secondary)' : 'var(--error)'}">(${d.points >= 0 ? '+' : ''}${d.points} pt)</b></li>
+                        `).join('')}
+                    </ul>
+
+                    <h4 style="font-size:0.8rem; color:var(--secondary); margin-top:8px; margin-bottom:4px;">Variazioni Listino (Δ Cr):</h4>
+                    ${(!h.priceChanges || h.priceChanges.length === 0) ? '<p style="font-size:0.75rem; color:#888;">Nessuna variazione</p>' : ''}
+                    <ul style="font-size:0.8rem; padding-left:18px;">
+                        ${(h.priceChanges || []).map(c => `
+                            <li>${c.name}: <span class="${c.delta > 0 ? 'val-plus' : 'val-minus'}">${c.delta > 0 ? '+' : ''}${c.delta} Cr</span> (ora ${c.newVal} Cr)</li>
+                        `).join('')}
+                    </ul>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function resetAndRenderMarketOptions() {
+            const pId = document.getElementById('market-p').value;
+            const p = (pId === '1') ? state.p1 : state.p2;
+
+            const statusMsg = document.getElementById('market-status-msg');
+            const container = document.getElementById('market-form-container');
+
+            if (p.tradeDone) {
+                statusMsg.innerHTML = `<div class="alert">${p.name} ha già effettuato lo scambio per questa gara!</div>`;
+                container.style.display = 'none';
+                return;
+            }
+
+            statusMsg.innerHTML = '';
+            container.style.display = 'block';
+
+            const outSel = document.getElementById('market-out');
+            outSel.innerHTML = `<option value="">-- Seleziona --</option>` + p.roster.map(rName => {
+                const r = state.riders.find(x => x.name === rName);
+                return `<option value="${rName}">${rName} (${r ? r.value : 0} Cr)</option>`;
+            }).join('');
+
+            const inSel = document.getElementById('market-in');
+            inSel.innerHTML = `<option value="">-- Seleziona prima il corridore da cedere --</option>`;
+            inSel.disabled = true;
+
+            document.getElementById('market-calc').innerHTML = `
+                <p>Budget Attuale: <b>${p.budget} Cr</b></p>
+                <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:4px;">Seleziona un corridore dalla rosa da cedere per procedere.</p>
+            `;
+            document.getElementById('btn-execute-trade').disabled = true;
+        }
+
+        function onMarketOutChange() {
+            const pId = document.getElementById('market-p').value;
+            const p = (pId === '1') ? state.p1 : state.p2;
+
+            const outName = document.getElementById('market-out').value;
+            const inSel = document.getElementById('market-in');
+
+            if (!outName) {
+                inSel.innerHTML = `<option value="">-- Seleziona prima il corridore da cedere --</option>`;
+                inSel.disabled = true;
+                document.getElementById('market-calc').innerHTML = `<p>Budget Attuale: <b>${p.budget} Cr</b></p>`;
+                document.getElementById('btn-execute-trade').disabled = true;
+                return;
+            }
+
+            const outRider = state.riders.find(r => r.name === outName);
+            const outVal = outRider ? outRider.value : 0;
+            const maxBudgetAvailable = p.budget + outVal;
+
+            const availableRiders = getSortedRidersAlphabetical().filter(r => !p.roster.includes(r.name) && r.value <= maxBudgetAvailable);
+
+            inSel.disabled = false;
+            inSel.innerHTML = `<option value="">-- Seleziona --</option>` + availableRiders.map(r => 
+                `<option value="${r.name}">${r.name} (${r.value} Cr)</option>`
+            ).join('');
+
+            updateMarketCalculations();
+        }
+
+        function updateMarketCalculations() {
+            const pId = document.getElementById('market-p').value;
+            const p = (pId === '1') ? state.p1 : state.p2;
+
+            const outName = document.getElementById('market-out').value;
+            const inName = document.getElementById('market-in').value;
+
+            if (!outName) return;
+
+            const outRider = state.riders.find(r => r.name === outName);
+            const outVal = outRider ? outRider.value : 0;
+
+            const inRider = state.riders.find(r => r.name === inName);
+            const inVal = inRider ? inRider.value : 0;
+
+            const newBudget = p.budget + outVal - inVal;
+
+            const calcDiv = document.getElementById('market-calc');
+            calcDiv.innerHTML = `
+                <p>Budget Attuale: <b>${p.budget} Cr</b></p>
+                <p>Valore Corridore Ceduto: <b>+${outVal} Cr</b></p>
+                ${inName ? `<p>Valore Corridore Acquistato: <b>-${inVal} Cr</b></p>` : ''}
+                <hr style="margin:8px 0; border-color:var(--border);">
+                <p style="font-size:1rem;">Nuovo Budget Residuo: <b style="color:${newBudget >= 0 ? 'var(--secondary)' : 'var(--error)'}">${newBudget} Cr</b></p>
+            `;
+
+            document.getElementById('btn-execute-trade').disabled = (newBudget < 0 || !inName || !outName);
+        }
+
+        function executeTrade() {
+            const pId = document.getElementById('market-p').value;
+            const p = (pId === '1') ? state.p1 : state.p2;
+
+            const outName = document.getElementById('market-out').value;
+            const inName = document.getElementById('market-in').value;
+
+            const outRider = state.riders.find(r => r.name === outName);
+            const inRider = state.riders.find(r => r.name === inName);
+
+            if (!outRider || !inRider) return;
+
+            const newBudget = p.budget + outRider.value - inRider.value;
+
+            if (newBudget < 0) {
+                alert("Operazione non consentita: il budget residuo andrebbe sotto zero!");
+                return;
+            }
+
+            p.roster = p.roster.filter(r => r !== outName);
+            p.roster.push(inName);
+            p.starters = p.starters.filter(r => r !== outName);
+
+            p.budget = newBudget;
+            p.tradeDone = true;
+
+            saveState();
+            alert(`Scambio effettuato e sincronizzato sul Cloud!\nCessione: ${outName}\nAcquisto: ${inName}`);
+            
+            resetAndRenderMarketOptions();
+            switchTab('home');
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>

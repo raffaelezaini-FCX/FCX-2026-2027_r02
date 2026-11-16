@@ -1,0 +1,1149 @@
+{
+  "riders": [
+    {
+      "name": "van der poel m.",
+      "value": 65
+    },
+    {
+      "name": "vantourenhout m.",
+      "value": 60
+    },
+    {
+      "name": "vandeputte n.",
+      "value": 59
+    },
+    {
+      "name": "van aert w.",
+      "value": 45
+    },
+    {
+      "name": "nieuwenhuis j.",
+      "value": 46
+    },
+    {
+      "name": "sweeck l.",
+      "value": 39
+    },
+    {
+      "name": "nys t.",
+      "value": 47
+    },
+    {
+      "name": "wyseure j.",
+      "value": 43
+    },
+    {
+      "name": "orts f.",
+      "value": 36
+    },
+    {
+      "name": "verstrynge e.",
+      "value": 30
+    },
+    {
+      "name": "del grosso t.",
+      "value": 30
+    },
+    {
+      "name": "aerts t.",
+      "value": 30
+    },
+    {
+      "name": "michels j.",
+      "value": 31
+    },
+    {
+      "name": "mason c.",
+      "value": 31
+    },
+    {
+      "name": "ronhaar p.",
+      "value": 26
+    },
+    {
+      "name": "kuypers g.",
+      "value": 24
+    },
+    {
+      "name": "vandenbosch t.",
+      "value": 20
+    },
+    {
+      "name": "kamp r.",
+      "value": 22
+    },
+    {
+      "name": "hendrikx m.",
+      "value": 19
+    },
+    {
+      "name": "meeussen w.",
+      "value": 18
+    },
+    {
+      "name": "kuhn k.",
+      "value": 20
+    },
+    {
+      "name": "van de putte v.",
+      "value": 14
+    },
+    {
+      "name": "hermans q.",
+      "value": 15
+    },
+    {
+      "name": "corsus y.",
+      "value": 13
+    },
+    {
+      "name": "fontana f.",
+      "value": 10
+    },
+    {
+      "name": "ferdinande a.",
+      "value": 9
+    },
+    {
+      "name": "vandenberghe v.",
+      "value": 5
+    },
+    {
+      "name": "stromheyer a.",
+      "value": 5
+    },
+    {
+      "name": "sparfel a.",
+      "value": 5
+    },
+    {
+      "name": "mein t.",
+      "value": 5
+    },
+    {
+      "name": "meeussen t.",
+      "value": 5
+    },
+    {
+      "name": "junquera san millan m.",
+      "value": 5
+    },
+    {
+      "name": "clarck t.",
+      "value": 5
+    },
+    {
+      "name": "brunner e.",
+      "value": 5
+    },
+    {
+      "name": "laurissen y.",
+      "value": 4
+    },
+    {
+      "name": "janssen w.",
+      "value": 3
+    },
+    {
+      "name": "lejeune g.",
+      "value": 4
+    },
+    {
+      "name": "viezzi s.",
+      "value": 2
+    },
+    {
+      "name": "van lierop d.",
+      "value": 2
+    },
+    {
+      "name": "van kempen j.",
+      "value": 2
+    },
+    {
+      "name": "suarez fernandez k.",
+      "value": 2
+    },
+    {
+      "name": "soelen k.",
+      "value": 2
+    },
+    {
+      "name": "lelandais r.",
+      "value": 2
+    },
+    {
+      "name": "inguanzo macho g.",
+      "value": 2
+    },
+    {
+      "name": "de moyer k.",
+      "value": 2
+    },
+    {
+      "name": "boros m.",
+      "value": 2
+    },
+    {
+      "name": "bommenel n.",
+      "value": 2
+    },
+    {
+      "name": "bertolini g.",
+      "value": 2
+    },
+    {
+      "name": "agostinacchio f.",
+      "value": 2
+    },
+    {
+      "name": "van den eynde m.",
+      "value": 1
+    },
+    {
+      "name": "thomas t.",
+      "value": 1
+    },
+    {
+      "name": "takacs z.",
+      "value": 1
+    },
+    {
+      "name": "meunt d.",
+      "value": 1
+    },
+    {
+      "name": "loockx l.",
+      "value": 1
+    },
+    {
+      "name": "jezek v.",
+      "value": 1
+    },
+    {
+      "name": "haverdings d.",
+      "value": 1
+    },
+    {
+      "name": "groslambert m.",
+      "value": 1
+    },
+    {
+      "name": "groenendal b.",
+      "value": 1
+    },
+    {
+      "name": "debord r.",
+      "value": 1
+    },
+    {
+      "name": "de bruickere k.",
+      "value": 1
+    },
+    {
+      "name": "ceolin f.",
+      "value": 1
+    },
+    {
+      "name": "baers a.",
+      "value": 2
+    },
+    {
+      "name": "bellens j.",
+      "value": 2
+    }
+  ],
+  "p1": {
+    "name": "BOGI",
+    "score": 402,
+    "budget": 22,
+    "roster": [
+      "orts f.",
+      "wyseure j.",
+      "lejeune g.",
+      "nys t.",
+      "kuhn k.",
+      "bellens j.",
+      "mason c."
+    ],
+    "starters": [],
+    "tradeDone": false,
+    "initialBudget": 170
+  },
+  "p2": {
+    "name": "JACOPO",
+    "score": 290,
+    "budget": 9,
+    "roster": [
+      "orts f.",
+      "janssen w.",
+      "kuypers g.",
+      "meeussen w.",
+      "wyseure j.",
+      "vandeputte n.",
+      "boros m."
+    ],
+    "starters": [],
+    "tradeDone": false,
+    "initialBudget": 170
+  },
+  "raceCount": 8,
+  "raceHistory": [
+    {
+      "id": 1,
+      "type": "HG Cross",
+      "name": "Heerderstrand",
+      "date": "2026-11-12",
+      "top10": [
+        "wyseure j.",
+        "nieuwenhuis j.",
+        "vandeputte n.",
+        "orts f.",
+        "lejeune g.",
+        "hendrikx m.",
+        "sweeck l.",
+        "kamp r.",
+        "janssen w.",
+        "corsus y."
+      ],
+      "dnfs": [],
+      "p1Points": 48,
+      "p2Points": 42,
+      "p1Details": [
+        {
+          "name": "vandeputte n.",
+          "points": 12
+        },
+        {
+          "name": "orts f.",
+          "points": 9
+        },
+        {
+          "name": "vandenbosch t.",
+          "points": 0
+        },
+        {
+          "name": "wyseure j.",
+          "points": 21
+        },
+        {
+          "name": "hendrikx m.",
+          "points": 6
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "vandeputte n.",
+          "points": 12
+        },
+        {
+          "name": "orts f.",
+          "points": 9
+        },
+        {
+          "name": "nieuwenhuis j.",
+          "points": 15
+        },
+        {
+          "name": "kamp r.",
+          "points": 4
+        },
+        {
+          "name": "corsus y.",
+          "points": 2
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "vandeputte n.",
+          "delta": 1,
+          "newVal": 53
+        },
+        {
+          "name": "nieuwenhuis j.",
+          "delta": 2,
+          "newVal": 42
+        },
+        {
+          "name": "wyseure j.",
+          "delta": 2,
+          "newVal": 33
+        },
+        {
+          "name": "orts f.",
+          "delta": 1,
+          "newVal": 31
+        },
+        {
+          "name": "lejeune g.",
+          "delta": 1,
+          "newVal": 3
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "Superprestige",
+      "name": "Overijse",
+      "date": "2026-10-25",
+      "top10": [
+        "vantourenhout m.",
+        "meeussen w.",
+        "vandeputte n.",
+        "mason c.",
+        "kuhn k.",
+        "orts f.",
+        "wyseure j.",
+        "loockx l.",
+        "van de putte v.",
+        "vandenberghe v."
+      ],
+      "dnfs": [],
+      "p1Points": 30,
+      "p2Points": 28,
+      "p1Details": [
+        {
+          "name": "vandeputte n.",
+          "points": 15
+        },
+        {
+          "name": "orts f.",
+          "points": 8
+        },
+        {
+          "name": "wyseure j.",
+          "points": 7
+        },
+        {
+          "name": "hendrikx m.",
+          "points": 0
+        },
+        {
+          "name": "michels j.",
+          "points": 0
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "vandeputte n.",
+          "points": 15
+        },
+        {
+          "name": "orts f.",
+          "points": 8
+        },
+        {
+          "name": "kamp r.",
+          "points": 0
+        },
+        {
+          "name": "corsus y.",
+          "points": 0
+        },
+        {
+          "name": "loockx l.",
+          "points": 5
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "vantourenhout m.",
+          "delta": 2,
+          "newVal": 56
+        },
+        {
+          "name": "vandeputte n.",
+          "delta": 1,
+          "newVal": 54
+        },
+        {
+          "name": "wyseure j.",
+          "delta": 1,
+          "newVal": 34
+        },
+        {
+          "name": "orts f.",
+          "delta": 1,
+          "newVal": 32
+        },
+        {
+          "name": "mason c.",
+          "delta": 1,
+          "newVal": 26
+        },
+        {
+          "name": "meeussen w.",
+          "delta": 2,
+          "newVal": 18
+        },
+        {
+          "name": "kuhn k.",
+          "delta": 1,
+          "newVal": 16
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "X2O",
+      "name": "Koppenbergcross",
+      "date": "2026-11-01",
+      "top10": [
+        "nys t.",
+        "vantourenhout m.",
+        "kuypers g.",
+        "ronhaar p.",
+        "mason c.",
+        "bellens j.",
+        "baers a.",
+        "debord r.",
+        "mein t.",
+        "michels j."
+      ],
+      "dnfs": [
+        "hendrikx m.",
+        "van de putte v."
+      ],
+      "p1Points": 17,
+      "p2Points": 19,
+      "p1Details": [
+        {
+          "name": "wyseure j.",
+          "points": 0
+        },
+        {
+          "name": "hendrikx m.",
+          "points": -5
+        },
+        {
+          "name": "vandenberghe v.",
+          "points": 0
+        },
+        {
+          "name": "michels j.",
+          "points": 3
+        },
+        {
+          "name": "vantourenhout m.",
+          "points": 19
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "nieuwenhuis j.",
+          "points": 0
+        },
+        {
+          "name": "kamp r.",
+          "points": 0
+        },
+        {
+          "name": "loockx l.",
+          "points": 0
+        },
+        {
+          "name": "janssen w.",
+          "points": 0
+        },
+        {
+          "name": "vantourenhout m.",
+          "points": 19
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "vantourenhout m.",
+          "delta": 2,
+          "newVal": 58
+        },
+        {
+          "name": "nys t.",
+          "delta": 2,
+          "newVal": 42
+        },
+        {
+          "name": "mason c.",
+          "delta": 1,
+          "newVal": 27
+        },
+        {
+          "name": "ronhaar p.",
+          "delta": 1,
+          "newVal": 26
+        },
+        {
+          "name": "kuypers g.",
+          "delta": 1,
+          "newVal": 23
+        },
+        {
+          "name": "hendrikx m.",
+          "delta": -1,
+          "newVal": 19
+        },
+        {
+          "name": "van de putte v.",
+          "delta": -1,
+          "newVal": 14
+        },
+        {
+          "name": "baers a.",
+          "delta": 1,
+          "newVal": 2
+        },
+        {
+          "name": "bellens j.",
+          "delta": 1,
+          "newVal": 2
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "Superprestige",
+      "name": "Middelkerke",
+      "date": "2026-11-05",
+      "top10": [
+        "wyseure j.",
+        "vantourenhout m.",
+        "kuhn k.",
+        "mason c.",
+        "michels j.",
+        "kuypers g.",
+        "orts f.",
+        "vandeputte n.",
+        "van de putte v.",
+        "janssen w."
+      ],
+      "dnfs": [],
+      "p1Points": 63,
+      "p2Points": 37,
+      "p1Details": [
+        {
+          "name": "orts f.",
+          "points": 7
+        },
+        {
+          "name": "wyseure j.",
+          "points": 27
+        },
+        {
+          "name": "michels j.",
+          "points": 10
+        },
+        {
+          "name": "vantourenhout m.",
+          "points": 19
+        },
+        {
+          "name": "meeussen w.",
+          "points": 0
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "orts f.",
+          "points": 7
+        },
+        {
+          "name": "loockx l.",
+          "points": 0
+        },
+        {
+          "name": "janssen w.",
+          "points": 3
+        },
+        {
+          "name": "vantourenhout m.",
+          "points": 19
+        },
+        {
+          "name": "kuypers g.",
+          "points": 8
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "vantourenhout m.",
+          "delta": 2,
+          "newVal": 60
+        },
+        {
+          "name": "wyseure j.",
+          "delta": 2,
+          "newVal": 36
+        },
+        {
+          "name": "orts f.",
+          "delta": 1,
+          "newVal": 33
+        },
+        {
+          "name": "michels j.",
+          "delta": 1,
+          "newVal": 28
+        },
+        {
+          "name": "mason c.",
+          "delta": 1,
+          "newVal": 28
+        },
+        {
+          "name": "kuypers g.",
+          "delta": 1,
+          "newVal": 24
+        },
+        {
+          "name": "kuhn k.",
+          "delta": 1,
+          "newVal": 17
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "Europeo",
+      "name": "Zeddam",
+      "date": "2026-11-08",
+      "top10": [
+        "nys t.",
+        "wyseure j.",
+        "vandeputte n.",
+        "nieuwenhuis j.",
+        "kuhn k.",
+        "mason c.",
+        "orts f.",
+        "michels j.",
+        "kamp r.",
+        "debord r."
+      ],
+      "dnfs": [
+        "kuypers g."
+      ],
+      "p1Points": 94,
+      "p2Points": 26,
+      "p1Details": [
+        {
+          "name": "orts f.",
+          "points": 11
+        },
+        {
+          "name": "wyseure j.",
+          "points": 32
+        },
+        {
+          "name": "michels j.",
+          "points": 8
+        },
+        {
+          "name": "meeussen w.",
+          "points": 0
+        },
+        {
+          "name": "nys t.",
+          "points": 43
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "orts f.",
+          "points": 11
+        },
+        {
+          "name": "nieuwenhuis j.",
+          "points": 20
+        },
+        {
+          "name": "vantourenhout m.",
+          "points": 0
+        },
+        {
+          "name": "kuypers g.",
+          "points": -5
+        },
+        {
+          "name": "meeussen w.",
+          "points": 0
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "vandeputte n.",
+          "delta": 1,
+          "newVal": 55
+        },
+        {
+          "name": "nieuwenhuis j.",
+          "delta": 1,
+          "newVal": 43
+        },
+        {
+          "name": "nys t.",
+          "delta": 3,
+          "newVal": 45
+        },
+        {
+          "name": "wyseure j.",
+          "delta": 2,
+          "newVal": 38
+        },
+        {
+          "name": "orts f.",
+          "delta": 1,
+          "newVal": 34
+        },
+        {
+          "name": "michels j.",
+          "delta": 1,
+          "newVal": 29
+        },
+        {
+          "name": "mason c.",
+          "delta": 1,
+          "newVal": 29
+        },
+        {
+          "name": "kuypers g.",
+          "delta": -1,
+          "newVal": 23
+        },
+        {
+          "name": "kamp r.",
+          "delta": 1,
+          "newVal": 21
+        },
+        {
+          "name": "kuhn k.",
+          "delta": 1,
+          "newVal": 18
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "Superprestige",
+      "name": "Niel - Jaarmarktcross",
+      "date": "2026-11-11",
+      "top10": [
+        "mason c.",
+        "wyseure j.",
+        "nieuwenhuis j.",
+        "orts f.",
+        "lejeune g.",
+        "kuhn k.",
+        "kamp r.",
+        "vantourenhout m.",
+        "michels j.",
+        "hendrikx m."
+      ],
+      "dnfs": [
+        "janssen w.",
+        "sweeck l."
+      ],
+      "p1Points": 53,
+      "p2Points": 31,
+      "p1Details": [
+        {
+          "name": "orts f.",
+          "points": 12
+        },
+        {
+          "name": "wyseure j.",
+          "points": 19
+        },
+        {
+          "name": "lejeune g.",
+          "points": 10
+        },
+        {
+          "name": "michels j.",
+          "points": 4
+        },
+        {
+          "name": "kuhn k.",
+          "points": 8
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "orts f.",
+          "points": 12
+        },
+        {
+          "name": "janssen w.",
+          "points": -5
+        },
+        {
+          "name": "vantourenhout m.",
+          "points": 5
+        },
+        {
+          "name": "meeussen w.",
+          "points": 0
+        },
+        {
+          "name": "wyseure j.",
+          "points": 19
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "nieuwenhuis j.",
+          "delta": 1,
+          "newVal": 44
+        },
+        {
+          "name": "sweeck l.",
+          "delta": -1,
+          "newVal": 39
+        },
+        {
+          "name": "wyseure j.",
+          "delta": 2,
+          "newVal": 40
+        },
+        {
+          "name": "orts f.",
+          "delta": 1,
+          "newVal": 35
+        },
+        {
+          "name": "mason c.",
+          "delta": 2,
+          "newVal": 31
+        },
+        {
+          "name": "kamp r.",
+          "delta": 1,
+          "newVal": 22
+        },
+        {
+          "name": "kuhn k.",
+          "delta": 1,
+          "newVal": 19
+        },
+        {
+          "name": "janssen w.",
+          "delta": -1,
+          "newVal": 3
+        },
+        {
+          "name": "lejeune g.",
+          "delta": 1,
+          "newVal": 4
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "type": "Superprestige",
+      "name": "Merksplas",
+      "date": "2026-11-14",
+      "top10": [
+        "vandeputte n.",
+        "wyseure j.",
+        "orts f.",
+        "corsus y.",
+        "nieuwenhuis j.",
+        "kuhn k.",
+        "michels j.",
+        "hendrikx m.",
+        "van de putte v.",
+        "kamp r."
+      ],
+      "dnfs": [
+        "vantourenhout m."
+      ],
+      "p1Points": 49,
+      "p2Points": 61,
+      "p1Details": [
+        {
+          "name": "orts f.",
+          "points": 15
+        },
+        {
+          "name": "wyseure j.",
+          "points": 19
+        },
+        {
+          "name": "michels j.",
+          "points": 7
+        },
+        {
+          "name": "kuhn k.",
+          "points": 8
+        },
+        {
+          "name": "bellens j.",
+          "points": 0
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "orts f.",
+          "points": 15
+        },
+        {
+          "name": "kuypers g.",
+          "points": 0
+        },
+        {
+          "name": "meeussen w.",
+          "points": 0
+        },
+        {
+          "name": "wyseure j.",
+          "points": 19
+        },
+        {
+          "name": "vandeputte n.",
+          "points": 27
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "vantourenhout m.",
+          "delta": -1,
+          "newVal": 59
+        },
+        {
+          "name": "vandeputte n.",
+          "delta": 2,
+          "newVal": 57
+        },
+        {
+          "name": "nieuwenhuis j.",
+          "delta": 1,
+          "newVal": 45
+        },
+        {
+          "name": "wyseure j.",
+          "delta": 2,
+          "newVal": 42
+        },
+        {
+          "name": "orts f.",
+          "delta": 1,
+          "newVal": 36
+        },
+        {
+          "name": "michels j.",
+          "delta": 1,
+          "newVal": 30
+        },
+        {
+          "name": "kuhn k.",
+          "delta": 1,
+          "newVal": 20
+        },
+        {
+          "name": "corsus y.",
+          "delta": 1,
+          "newVal": 13
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "X2O",
+      "name": "Hamme-Zogge",
+      "date": "2026-11-15",
+      "top10": [
+        "nys t.",
+        "vandeputte n.",
+        "vantourenhout m.",
+        "wyseure j.",
+        "kuypers g.",
+        "michels j.",
+        "nieuwenhuis j.",
+        "orts f.",
+        "kuhn k.",
+        "kamp r."
+      ],
+      "dnfs": [],
+      "p1Points": 48,
+      "p2Points": 46,
+      "p1Details": [
+        {
+          "name": "orts f.",
+          "points": 5
+        },
+        {
+          "name": "wyseure j.",
+          "points": 12
+        },
+        {
+          "name": "nys t.",
+          "points": 27
+        },
+        {
+          "name": "kuhn k.",
+          "points": 4
+        },
+        {
+          "name": "mason c.",
+          "points": 0
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "orts f.",
+          "points": 5
+        },
+        {
+          "name": "kuypers g.",
+          "points": 10
+        },
+        {
+          "name": "meeussen w.",
+          "points": 0
+        },
+        {
+          "name": "wyseure j.",
+          "points": 12
+        },
+        {
+          "name": "vandeputte n.",
+          "points": 19
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "vantourenhout m.",
+          "delta": 1,
+          "newVal": 60
+        },
+        {
+          "name": "vandeputte n.",
+          "delta": 2,
+          "newVal": 59
+        },
+        {
+          "name": "nieuwenhuis j.",
+          "delta": 1,
+          "newVal": 46
+        },
+        {
+          "name": "nys t.",
+          "delta": 2,
+          "newVal": 47
+        },
+        {
+          "name": "wyseure j.",
+          "delta": 1,
+          "newVal": 43
+        },
+        {
+          "name": "michels j.",
+          "delta": 1,
+          "newVal": 31
+        },
+        {
+          "name": "kuypers g.",
+          "delta": 1,
+          "newVal": 24
+        }
+      ]
+    }
+  ]
+}
