@@ -248,13 +248,125 @@
             padding: 2px 0;
             border-bottom: 1px dashed #333;
         }
+
+        /* LOGIN OVERLAY */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-card h1 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.5rem;
+        }
+
+        .login-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+
+        .btn-login {
+            padding: 16px;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            transition: transform 0.1s;
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+
+        .btn-bogi {
+            background-color: var(--primary);
+            color: #000;
+        }
+
+        .btn-jacopo {
+            background-color: var(--secondary);
+            color: #000;
+        }
+
+        .team-fixed-box {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #2a2a2a;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .user-pill {
+            font-size: 0.75rem;
+            background: #2a2a2a;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 4px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
     </style>
 </head>
 <body>
 
+    <!-- SCHERMATA DI LOGIN INIZIALE -->
+    <div id="login-screen">
+        <div class="login-card">
+            <h1>FCX 2026/2027</h1>
+            <p>Seleziona il tuo profilo per accedere</p>
+            <button class="btn-login btn-bogi" onclick="selectUser('1')">Accedi come BOGI</button>
+            <button class="btn-login btn-jacopo" onclick="selectUser('2')">Accedi come JACOPO</button>
+        </div>
+    </div>
+
     <header>
-        <h1>FCX 2026/2027</h1>
-        <div id="sync-indicator" class="sync-status sync-sync">Connessione al Cloud...</div>
+        <div class="header-top">
+            <div style="width: 70px;"></div>
+            <div>
+                <h1>FCX 2026/2027</h1>
+                <div id="sync-indicator" class="sync-status sync-sync">Connessione al Cloud...</div>
+            </div>
+            <div class="user-pill" onclick="logoutUser()" title="Cambia utente">
+                <span id="current-user-label">--</span> ⇄
+            </div>
+        </div>
     </header>
 
     <div class="container">
@@ -313,11 +425,8 @@
                 </p>
 
                 <div class="form-group">
-                    <label>Seleziona Partecipante</label>
-                    <select id="lineup-p" onchange="renderStartersInputs()">
-                        <option value="1">BOGI</option>
-                        <option value="2">JACOPO</option>
-                    </select>
+                    <label>TEAM</label>
+                    <div id="lineup-team-display" class="team-fixed-box">BOGI</div>
                 </div>
 
                 <div id="lineup-status-msg"></div>
@@ -408,11 +517,8 @@
                 </p>
 
                 <div class="form-group">
-                    <label>Seleziona Partecipante</label>
-                    <select id="market-p" onchange="resetAndRenderMarketOptions()">
-                        <option value="1">BOGI</option>
-                        <option value="2">JACOPO</option>
-                    </select>
+                    <label>TEAM</label>
+                    <div id="market-team-display" class="team-fixed-box">BOGI</div>
                 </div>
 
                 <div id="market-status-msg"></div>
@@ -498,7 +604,7 @@
         <div class="nav-item" onclick="switchTab('historico')">Storico</div>
         <div class="nav-item" onclick="switchTab('mercato')">Mercato</div>
         <div class="nav-item" onclick="switchTab('listino')">Listino</div>
-        <div class="nav-item" onclick="switchTab('init')">Rose</div>
+        <div class="nav-item" id="nav-init" onclick="switchTab('init')">Rose</div>
     </div>
 
     <script>
@@ -542,6 +648,39 @@
 
         let fileSha = null; 
         let currentPendingRace = null;
+        let currentUserId = '1'; // '1' = BOGI, '2' = JACOPO
+
+        function selectUser(userId) {
+            currentUserId = userId;
+            const userName = (userId === '1') ? state.p1.name : state.p2.name;
+
+            // Nascondi schermata login
+            document.getElementById('login-screen').style.display = 'none';
+
+            // Aggiorna badge utente in header
+            document.getElementById('current-user-label').innerText = userName;
+
+            // Aggiorna etichette fisse TEAM in Formazione e Mercato
+            document.getElementById('lineup-team-display').innerText = userName;
+            document.getElementById('market-team-display').innerText = userName;
+
+            // Gestione visibilità scheda Rose (solo per BOGI = '1')
+            const navInit = document.getElementById('nav-init');
+            if (userId === '1') {
+                navInit.style.display = 'block';
+            } else {
+                navInit.style.display = 'none';
+            }
+
+            // Aggiorna le viste
+            renderStartersInputs();
+            resetAndRenderMarketOptions();
+            switchTab('home');
+        }
+
+        function logoutUser() {
+            document.getElementById('login-screen').style.display = 'flex';
+        }
 
         async function initApp() {
             setSyncStatus("Caricamento da GitHub...", "sync-sync");
@@ -852,7 +991,7 @@
 
         // TAB FORMAZIONE INDIPENDENTE (SPECULARE AL MERCATO)
         function renderStartersInputs() {
-            const pId = document.getElementById('lineup-p').value;
+            const pId = currentUserId;
             const p = (pId === '1') ? state.p1 : state.p2;
             const container = document.getElementById('starters-checkboxes');
             const statusMsg = document.getElementById('lineup-status-msg');
@@ -890,7 +1029,7 @@
         }
 
         function saveLineupsIndependent() {
-            const pId = document.getElementById('lineup-p').value;
+            const pId = currentUserId;
             const p = (pId === '1') ? state.p1 : state.p2;
 
             const selectedStarters = Array.from(document.getElementsByName('starter-player'))
@@ -1228,7 +1367,7 @@
         }
 
         function resetAndRenderMarketOptions() {
-            const pId = document.getElementById('market-p').value;
+            const pId = currentUserId;
             const p = (pId === '1') ? state.p1 : state.p2;
 
             const statusMsg = document.getElementById('market-status-msg');
@@ -1261,7 +1400,7 @@
         }
 
         function onMarketOutChange() {
-            const pId = document.getElementById('market-p').value;
+            const pId = currentUserId;
             const p = (pId === '1') ? state.p1 : state.p2;
 
             const outName = document.getElementById('market-out').value;
@@ -1290,7 +1429,7 @@
         }
 
         function updateMarketCalculations() {
-            const pId = document.getElementById('market-p').value;
+            const pId = currentUserId;
             const p = (pId === '1') ? state.p1 : state.p2;
 
             const outName = document.getElementById('market-out').value;
@@ -1319,7 +1458,7 @@
         }
 
         function executeTrade() {
-            const pId = document.getElementById('market-p').value;
+            const pId = currentUserId;
             const p = (pId === '1') ? state.p1 : state.p2;
 
             const outName = document.getElementById('market-out').value;
