@@ -201,6 +201,14 @@
             width: auto;
         }
 
+        .checkbox-group label {
+            margin-bottom: 0;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            cursor: pointer;
+            flex: 1;
+        }
+
         .alert {
             padding: 10px;
             background-color: rgba(207, 102, 121, 0.2);
@@ -301,18 +309,25 @@
             <div class="card">
                 <h2>Schiera Formazione Prossima Gara</h2>
                 <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
-                    Seleziona esattamente <b>5 titolari</b> per ciascun partecipante prima della gara.
+                    Seleziona il partecipante e scegli esattamente <b>5 titolari</b> dalla tua rosa.
                 </p>
 
-                <h3 style="margin-top:10px; color:var(--primary);">Titolari BOGI (5)</h3>
-                <div id="p1-starters"></div>
+                <div class="form-group">
+                    <label>Seleziona Partecipante</label>
+                    <select id="lineup-p" onchange="renderStartersInputs()">
+                        <option value="1">BOGI</option>
+                        <option value="2">JACOPO</option>
+                    </select>
+                </div>
 
-                <hr style="margin:15px 0; border-color:var(--border);">
+                <div id="lineup-status-msg"></div>
 
-                <h3 style="margin-top:10px; color:var(--primary);">Titolari JACOPO (5)</h3>
-                <div id="p2-starters"></div>
+                <div id="lineup-form-container">
+                    <h3 style="margin-top:10px; color:var(--primary);">I tuoi 5 Titolari</h3>
+                    <div id="starters-checkboxes" style="margin-top:8px;"></div>
 
-                <button onclick="saveLineups()">Conferma e Salva Formazioni</button>
+                    <button onclick="saveLineupsIndependent()" style="margin-top:15px;">Conferma e Salva Formazione</button>
+                </div>
             </div>
         </div>
 
@@ -835,33 +850,31 @@
             switchTab('formazione');
         }
 
-        // TAB FORMAZIONE
+        // TAB FORMAZIONE INDIPENDENTE (SPECULARE AL MERCATO)
         function renderStartersInputs() {
-            const p1Div = document.getElementById('p1-starters');
-            const p2Div = document.getElementById('p2-starters');
-            p1Div.innerHTML = '';
-            p2Div.innerHTML = '';
+            const pId = document.getElementById('lineup-p').value;
+            const p = (pId === '1') ? state.p1 : state.p2;
+            const container = document.getElementById('starters-checkboxes');
+            const statusMsg = document.getElementById('lineup-status-msg');
+            const formContainer = document.getElementById('lineup-form-container');
 
-            if (state.p1.roster.length < 7 || state.p2.roster.length < 7) {
-                p1Div.innerHTML = `<p style="color:var(--error)">Definisci prima le rose nella scheda 'Rose'!</p>`;
+            container.innerHTML = '';
+
+            if (!p.roster || p.roster.length < 7) {
+                statusMsg.innerHTML = `<div class="alert">La rosa di ${p.name} non è ancora definita! Vai nella scheda 'Rose'.</div>`;
+                formContainer.style.display = 'none';
                 return;
             }
 
-            state.p1.roster.forEach(rName => {
-                const isChecked = state.p1.starters.includes(rName) ? 'checked' : '';
-                p1Div.innerHTML += `
-                    <div class="checkbox-group">
-                        <input type="checkbox" name="starter-p1" value="${rName}" id="chk-p1-${rName}" ${isChecked} onchange="limitCheckboxes('starter-p1', 5)">
-                        <label for="chk-p1-${rName}">${rName}</label>
-                    </div>`;
-            });
+            statusMsg.innerHTML = '';
+            formContainer.style.display = 'block';
 
-            state.p2.roster.forEach(rName => {
-                const isChecked = state.p2.starters.includes(rName) ? 'checked' : '';
-                p2Div.innerHTML += `
+            p.roster.forEach(rName => {
+                const isChecked = p.starters && p.starters.includes(rName) ? 'checked' : '';
+                container.innerHTML += `
                     <div class="checkbox-group">
-                        <input type="checkbox" name="starter-p2" value="${rName}" id="chk-p2-${rName}" ${isChecked} onchange="limitCheckboxes('starter-p2', 5)">
-                        <label for="chk-p2-${rName}">${rName}</label>
+                        <input type="checkbox" name="starter-player" value="${rName}" id="chk-${rName}" ${isChecked} onchange="limitCheckboxes('starter-player', 5)">
+                        <label for="chk-${rName}">${rName}</label>
                     </div>`;
             });
         }
@@ -876,23 +889,23 @@
             }
         }
 
-        function saveLineups() {
-            const p1Starters = Array.from(document.getElementsByName('starter-p1'))
-                .filter(c => c.checked).map(c => c.value);
-            const p2Starters = Array.from(document.getElementsByName('starter-p2'))
+        function saveLineupsIndependent() {
+            const pId = document.getElementById('lineup-p').value;
+            const p = (pId === '1') ? state.p1 : state.p2;
+
+            const selectedStarters = Array.from(document.getElementsByName('starter-player'))
                 .filter(c => c.checked).map(c => c.value);
 
-            if (p1Starters.length !== 5 || p2Starters.length !== 5) {
-                alert("Devi selezionare esattamente 5 titolari per ciascun partecipante!");
+            if (selectedStarters.length !== 5) {
+                alert("Devi selezionare esattamente 5 titolari!");
                 return;
             }
 
-            state.p1.starters = p1Starters;
-            state.p2.starters = p2Starters;
+            p.starters = selectedStarters;
 
             saveState();
-            alert("Formazioni salvate con successo sul Cloud!");
-            switchTab('gara');
+            alert(`Formazione di ${p.name} salvata con successo sul Cloud!`);
+            switchTab('home');
         }
 
         // TAB GARA & ANTEPRIMA
@@ -905,7 +918,10 @@
                 statusDiv.innerHTML = `<div class="status-badge status-ok" style="font-size:0.85rem; padding:6px 10px;">Formazioni Schierate e Pronte</div>`;
                 document.getElementById('btn-show-preview').disabled = false;
             } else {
-                statusDiv.innerHTML = `<div class="status-badge status-no" style="font-size:0.85rem; padding:6px 10px;">Formazioni non schierate! Vai prima nella scheda 'Formazione'</div>`;
+                const missing = [];
+                if (!p1Ready) missing.push(state.p1.name);
+                if (!p2Ready) missing.push(state.p2.name);
+                statusDiv.innerHTML = `<div class="status-badge status-no" style="font-size:0.85rem; padding:6px 10px;">Formazione mancante per: ${missing.join(' e ')}!</div>`;
                 document.getElementById('btn-show-preview').disabled = true;
             }
 
@@ -1329,7 +1345,9 @@
             p.tradeDone = true;
 
             saveState();
-            alert(`Scambio effettuato e sincronizzato sul Cloud!\nCessione: ${outName}\nAcquisto: ${inName}`);
+            alert(`Scambio effettuato e sincronizzato sul Cloud!
+Cessione: ${outName}
+Acquisto: ${inName}`);
             
             resetAndRenderMarketOptions();
             switchTab('home');
