@@ -570,9 +570,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th onclick="sortListino('corridore')" style="cursor:pointer;" title="Clicca per ordinare">Corridore ↕</th>
-                            <th onclick="sortListino('valore')" style="cursor:pointer;" title="Clicca per ordinare">Valore Corrente ↕</th>
-                            <th onclick="sortListino('punti')" style="cursor:pointer;" title="Clicca per ordinare">Punti ↕</th>
+                            <th>Corridore</th>
+                            <th>Valore Corrente</th>
+                            <th>Punti</th>
                         </tr>
                     </thead>
                     <tbody id="tb-listino"></tbody>
@@ -812,41 +812,21 @@
         }
 
         function updateUI() {
+            document.getElementById('tb-classifica').innerHTML = `
+                <tr><td><b>${state.p1.name}</b></td><td>${state.p1.score} pt</td><td>${state.p1.budget} Cr</td></tr>
+                <tr><td><b>${state.p2.name}</b></td><td>${state.p2.score} pt</td><td>${state.p2.budget} Cr</td></tr>
+            `;
+
         let listinoHtml = '';
-            
-            // Calcoliamo i punti per ciascun corridore prima di ordinare
-            let ridersWithStats = state.riders.map(r => {
+            getSortedRidersAlphabetical().forEach(r => {
                 let totalRiderPts = 0;
                 if (state.raceHistory && state.raceHistory.length > 0) {
                     state.raceHistory.forEach(h => {
                         totalRiderPts += calculateRiderPoints(r.name, h.type, h.top10 || [], h.dnfs || []);
                     });
                 }
-                return { name: r.name, value: r.value, points: totalRiderPts };
-            });
-
-            // Ordinamento in base alla colonna selezionata
-            ridersWithStats.sort((a, b) => {
-                let valA, valB;
-                if (listinoSortColumn === 'corridore') {
-                    valA = a.name;
-                    valB = b.name;
-                    return listinoSortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-                } else if (listinoSortColumn === 'valore') {
-                    valA = a.value;
-                    valB = b.value;
-                    return listinoSortAsc ? (valB - valA) : (valA - valB);
-                } else if (listinoSortColumn === 'punti') {
-                    valA = a.points;
-                    valB = b.points;
-                    return listinoSortAsc ? (valB - valA) : (valA - valB);
-                }
-                return 0;
-            });
-
-            ridersWithStats.forEach(r => {
-                const ptsColor = r.points > 0 ? 'var(--secondary)' : (r.points < 0 ? 'var(--error)' : 'var(--text-secondary)');
-                listinoHtml += `<tr><td>${r.name}</td><td><b>${r.value} Cr</b></td><td style="color:${ptsColor}; font-weight:bold;">${r.points} pt</td></tr>`;
+                const ptsColor = totalRiderPts > 0 ? 'var(--secondary)' : (totalRiderPts < 0 ? 'var(--error)' : 'var(--text-secondary)');
+                listinoHtml += `<tr><td>${r.name}</td><td><b>${r.value} Cr</b></td><td style="color:${ptsColor}; font-weight:bold;">${totalRiderPts} pt</td></tr>`;
             });
             document.getElementById('tb-listino').innerHTML = listinoHtml;
 
@@ -1530,16 +1510,7 @@ Acquisto: ${inName}`);
             resetAndRenderMarketOptions();
             switchTab('home');
         }
-function sortListino(column) {
-    if (listinoSortColumn === column) {
-        listinoSortAsc = !listinoSortAsc; // Se clicchi di nuovo sulla stessa colonna, inverte l'ordine (es. da dal più alto al più basso a viceversa)
-    } else {
-        listinoSortColumn = column;
-        // Imposta l'ordine predefinito: A-Z per il nome, dal più alto al più basso (decrescente) per valore e punti
-        listinoSortAsc = (column === 'corridore') ? true : false;
-    }
-    updateUI(); // Ridisegna la tabella con il nuovo ordinamento
-}
+
         window.onload = initApp;
     </script>
 </body>
