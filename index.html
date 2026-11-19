@@ -912,16 +912,12 @@
             let html = '';
             rankingList.forEach((r, idx) => {
                 const ptsColor = r.totalPts > 0 ? 'var(--secondary)' : 'var(--text-secondary)';
-                const detailStr = (r.initPts > 0 || r.racePts > 0) 
-                    ? `<span style="font-size:0.72rem; color:var(--text-secondary); font-weight:normal; margin-left:6px;">(${r.initPts} init + ${r.racePts} gare)</span>` 
-                    : '';
                 html += `<tr>
                     <td style="color:var(--text-secondary);">${idx + 1}°</td>
-                    <td>${r.name}${detailStr}</td>
+                    <td>${r.name}</td>
                     <td style="text-align:right; color:${ptsColor}; font-weight:bold;">${r.totalPts} pt</td>
                 </tr>`;
             });
-
             tbody.innerHTML = html;
         }
 
