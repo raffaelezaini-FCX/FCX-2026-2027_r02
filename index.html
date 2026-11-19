@@ -580,6 +580,26 @@
             </div>
         </div>
 
+        <!-- TAB RANKING -->
+        <div id="tab-ranking" class="tab-content">
+            <div class="card">
+                <h2>Ranking Generale</h2>
+                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
+                    Classifica indipendente: punti iniziali + punti gara (10 pt al 1°, 9 al 2°, ..., 1 al 10°).
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:40px;">#</th>
+                            <th>Corridore</th>
+                            <th style="text-align:right;">Punti</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb-ranking"></tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- TAB CREA ROSE INIZIALI -->
         <div id="tab-init" class="tab-content">
             <div class="card">
@@ -610,6 +630,7 @@
         <div class="nav-item" onclick="switchTab('historico')">Storico</div>
         <div class="nav-item" onclick="switchTab('mercato')">Mercato</div>
         <div class="nav-item" onclick="switchTab('listino')">Listino</div>
+        <div class="nav-item" onclick="switchTab('ranking')">Ranking</div>
         <div class="nav-item" id="nav-init" onclick="switchTab('init')">Rose</div>
     </div>
 
@@ -794,7 +815,7 @@
             document.getElementById('tab-' + tabId).classList.add('active');
             
             const navItems = document.querySelectorAll('.nav-item');
-            const tabMap = ['home', 'formazione', 'gara', 'historico', 'mercato', 'listino', 'init'];
+            const tabMap = ['home', 'formazione', 'gara', 'historico', 'mercato', 'listino', 'ranking', 'init'];
             const idx = tabMap.indexOf(tabId);
             if (idx !== -1 && navItems[idx]) navItems[idx].classList.add('active');
 
@@ -806,6 +827,8 @@
                 renderHistory();
             } else if (tabId === 'mercato') {
                 resetAndRenderMarketOptions();
+            } else if (tabId === 'ranking') {
+                renderRanking();
             } else if (tabId === 'init') {
                 renderInitSelects();
             }
@@ -824,6 +847,82 @@
                 listinoSortAsc = (key === 'name');
             }
             updateUI();
+        }
+
+                const rankingInitialPoints = {
+            "vantourenhout m.": 20,
+            "vandeputte n.": 14,
+            "kuypers g.": 13,
+            "meeussen w.": 12,
+            "michels j.": 9,
+            "corsus y.": 9,
+            "kamp r.": 8,
+            "mason c.": 8,
+            "wyseure j.": 8,
+            "van de putte v.": 3,
+            "lejeune g.": 3,
+            "orts f.": 2,
+            "vandenbosch t.": 1
+        };
+
+        const rankingRacePoints = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+
+        function renderRanking() {
+            const tbody = document.getElementById('tb-ranking');
+            if (!tbody) return;
+
+            // Raccogli tutti i nomi dei corridori (sia dal listino sia eventuali presenti nei punti iniziali o nello storico)
+            const riderNamesSet = new Set(state.riders.map(r => r.name));
+            Object.keys(rankingInitialPoints).forEach(name => riderNamesSet.add(name));
+            if (state.raceHistory) {
+                state.raceHistory.forEach(h => {
+                    (h.top10 || []).forEach(name => {
+                        if (name) riderNamesSet.add(name);
+                    });
+                });
+            }
+
+            const rankingList = Array.from(riderNamesSet).map(name => {
+                const initPts = rankingInitialPoints[name] || 0;
+                let racePts = 0;
+
+                if (state.raceHistory && state.raceHistory.length > 0) {
+                    state.raceHistory.forEach(h => {
+                        const posIndex = (h.top10 || []).indexOf(name);
+                        if (posIndex !== -1 && posIndex < 10) {
+                            racePts += rankingRacePoints[posIndex];
+                        }
+                    });
+                }
+
+                return {
+                    name: name,
+                    initPts: initPts,
+                    racePts: racePts,
+                    totalPts: initPts + racePts
+                };
+            });
+
+            // Ordina per punteggio totale decrescente, e a parità per nome alfabetico
+            rankingList.sort((a, b) => {
+                if (b.totalPts !== a.totalPts) return b.totalPts - a.totalPts;
+                return a.name.localeCompare(b.name);
+            });
+
+            let html = '';
+            rankingList.forEach((r, idx) => {
+                const ptsColor = r.totalPts > 0 ? 'var(--secondary)' : 'var(--text-secondary)';
+                const detailStr = (r.initPts > 0 || r.racePts > 0) 
+                    ? `<span style="font-size:0.72rem; color:var(--text-secondary); font-weight:normal; margin-left:6px;">(${r.initPts} init + ${r.racePts} gare)</span>` 
+                    : '';
+                html += `<tr>
+                    <td style="color:var(--text-secondary);">${idx + 1}°</td>
+                    <td>${r.name}${detailStr}</td>
+                    <td style="text-align:right; color:${ptsColor}; font-weight:bold;">${r.totalPts} pt</td>
+                </tr>`;
+            });
+
+            tbody.innerHTML = html;
         }
 
         function updateUI() {
@@ -867,6 +966,7 @@
 
             renderRosterTable('tb-rosa1', 'info-p1', state.p1);
             renderRosterTable('tb-rosa2', 'info-p2', state.p2);
+            renderRanking();
         }
 
         function renderRosterTable(tbodyId, infoId, participant) {
