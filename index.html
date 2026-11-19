@@ -570,9 +570,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Corridore</th>
-                            <th>Valore Corrente</th>
-                            <th>Punti</th>
+                            <th onclick="setListinoSort('name')" style="cursor:pointer;" title="Clicca per ordinare per nome">Corridore ↕</th>
+                            <th onclick="setListinoSort('value')" style="cursor:pointer;" title="Clicca per ordinare per valore">Valore Corrente ↕</th>
+                            <th onclick="setListinoSort('points')" style="cursor:pointer;" title="Clicca per ordinare per punti">Punti ↕</th>
                         </tr>
                     </thead>
                     <tbody id="tb-listino"></tbody>
@@ -811,6 +811,21 @@
             }
         }
 
+        
+        let listinoSortKey = 'name'; // 'name', 'value', 'points'
+        let listinoSortAsc = true;   // true per alfabetico/crescente, false per decrescente
+
+        function setListinoSort(key) {
+            if (listinoSortKey === key) {
+                listinoSortAsc = !listinoSortAsc; // Inverti direzione se clicchi sulla stessa colonna
+            } else {
+                listinoSortKey = key;
+                // Default: nome crescente (true), valore/punti decrescente (false)
+                listinoSortAsc = (key === 'name');
+            }
+            updateUI();
+        }
+
         function updateUI() {
             document.getElementById('tb-classifica').innerHTML = `
                 <tr><td><b>${state.p1.name}</b></td><td>${state.p1.score} pt</td><td>${state.p1.budget} Cr</td></tr>
@@ -818,15 +833,35 @@
             `;
 
         let listinoHtml = '';
-            getSortedRidersAlphabetical().forEach(r => {
+            // Calcoliamo i punti per ogni corridore prima di ordinare
+            let ridersWithDetails = state.riders.map(r => {
                 let totalRiderPts = 0;
                 if (state.raceHistory && state.raceHistory.length > 0) {
                     state.raceHistory.forEach(h => {
                         totalRiderPts += calculateRiderPoints(r.name, h.type, h.top10 || [], h.dnfs || []);
                     });
                 }
-                const ptsColor = totalRiderPts > 0 ? 'var(--secondary)' : (totalRiderPts < 0 ? 'var(--error)' : 'var(--text-secondary)');
-                listinoHtml += `<tr><td>${r.name}</td><td><b>${r.value} Cr</b></td><td style="color:${ptsColor}; font-weight:bold;">${totalRiderPts} pt</td></tr>`;
+                return { name: r.name, value: r.value, points: totalRiderPts };
+            });
+
+            // Ordiniamo in base a listinoSortKey e listinoSortAsc
+            ridersWithDetails.sort((a, b) => {
+                let valA = a[listinoSortKey];
+                let valB = b[listinoSortKey];
+
+                if (listinoSortKey === 'name') {
+                    let cmp = valA.localeCompare(valB);
+                    return listinoSortAsc ? cmp : -cmp;
+                } else {
+                    // Per punti o valore, ordinamento numerico
+                    let cmp = valA - valB;
+                    return listinoSortAsc ? cmp : -cmp;
+                }
+            });
+
+            ridersWithDetails.forEach(r => {
+                const ptsColor = r.points > 0 ? 'var(--secondary)' : (r.points < 0 ? 'var(--error)' : 'var(--text-secondary)');
+                listinoHtml += `<tr><td>${r.name}</td><td><b>${r.value} Cr</b></td><td style="color:${ptsColor}; font-weight:bold;">${r.points} pt</td></tr>`;
             });
             document.getElementById('tb-listino').innerHTML = listinoHtml;
 
