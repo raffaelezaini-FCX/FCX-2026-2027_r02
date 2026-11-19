@@ -572,6 +572,7 @@
                         <tr>
                             <th>Corridore</th>
                             <th>Valore Corrente</th>
+                            <th>Punti</th><th>Punti</th>
                         </tr>
                     </thead>
                     <tbody id="tb-listino"></tbody>
@@ -816,9 +817,16 @@
                 <tr><td><b>${state.p2.name}</b></td><td>${state.p2.score} pt</td><td>${state.p2.budget} Cr</td></tr>
             `;
 
-            let listinoHtml = '';
+        let listinoHtml = '';
             getSortedRidersAlphabetical().forEach(r => {
-                listinoHtml += `<tr><td>${r.name}</td><td><b>${r.value} Cr</b></td></tr>`;
+                let totalRiderPts = 0;
+                if (state.raceHistory && state.raceHistory.length > 0) {
+                    state.raceHistory.forEach(h => {
+                        totalRiderPts += calculateRiderPoints(r.name, h.type, h.top10 || [], h.dnfs || []);
+                    });
+                }
+                const ptsColor = totalRiderPts > 0 ? 'var(--secondary)' : (totalRiderPts < 0 ? 'var(--error)' : 'var(--text-secondary)');
+                listinoHtml += `<tr><td>${r.name}</td><td><b>${r.value} Cr</b></td><td style="color:${ptsColor}; font-weight:bold;">${totalRiderPts} pt</td></tr>`;
             });
             document.getElementById('tb-listino').innerHTML = listinoHtml;
 
