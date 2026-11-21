@@ -256,15 +256,15 @@
   "p1": {
     "name": "BOGI",
     "score": 402,
-    "budget": 22,
+    "budget": 12,
     "roster": [
-      "orts f.",
       "wyseure j.",
       "lejeune g.",
       "nys t.",
       "kuhn k.",
       "bellens j.",
-      "mason c."
+      "mason c.",
+      "nieuwenhuis j."
     ],
     "starters": [
       "wyseure j.",
@@ -273,7 +273,7 @@
       "bellens j.",
       "mason c."
     ],
-    "tradeDone": false,
+    "tradeDone": true,
     "initialBudget": 170
   },
   "p2": {
