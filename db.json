@@ -30,7 +30,7 @@
     },
     {
       "name": "wyseure j.",
-      "value": 43
+      "value": 45
     },
     {
       "name": "orts f.",
@@ -50,11 +50,11 @@
     },
     {
       "name": "michels j.",
-      "value": 31
+      "value": 32
     },
     {
       "name": "mason c.",
-      "value": 31
+      "value": 32
     },
     {
       "name": "ronhaar p.",
@@ -62,7 +62,7 @@
     },
     {
       "name": "kuypers g.",
-      "value": 24
+      "value": 26
     },
     {
       "name": "vandenbosch t.",
@@ -110,7 +110,7 @@
     },
     {
       "name": "stromheyer a.",
-      "value": 5
+      "value": 4
     },
     {
       "name": "sparfel a.",
@@ -146,7 +146,7 @@
     },
     {
       "name": "lejeune g.",
-      "value": 4
+      "value": 5
     },
     {
       "name": "viezzi s.",
@@ -255,7 +255,7 @@
   ],
   "p1": {
     "name": "BOGI",
-    "score": 402,
+    "score": 443,
     "budget": 12,
     "roster": [
       "wyseure j.",
@@ -266,19 +266,13 @@
       "mason c.",
       "nieuwenhuis j."
     ],
-    "starters": [
-      "wyseure j.",
-      "lejeune g.",
-      "bellens j.",
-      "mason c.",
-      "nieuwenhuis j."
-    ],
-    "tradeDone": true,
+    "starters": [],
+    "tradeDone": false,
     "initialBudget": 170
   },
   "p2": {
     "name": "JACOPO",
-    "score": 290,
+    "score": 336,
     "budget": 9,
     "roster": [
       "orts f.",
@@ -289,17 +283,11 @@
       "vandeputte n.",
       "boros m."
     ],
-    "starters": [
-      "janssen w.",
-      "kuypers g.",
-      "meeussen w.",
-      "wyseure j.",
-      "vandeputte n."
-    ],
+    "starters": [],
     "tradeDone": false,
     "initialBudget": 170
   },
-  "raceCount": 8,
+  "raceCount": 9,
   "raceHistory": [
     {
       "id": 1,
@@ -1154,6 +1142,105 @@
           "name": "kuypers g.",
           "delta": 1,
           "newVal": 24
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "type": "HG Cross",
+      "name": "Lokeren - Rapencross",
+      "date": "2026-11-21",
+      "top10": [
+        "kuypers g.",
+        "wyseure j.",
+        "mason c.",
+        "michels j.",
+        "lejeune g.",
+        "vandeputte n.",
+        "nieuwenhuis j.",
+        "meeussen w.",
+        "van de putte v.",
+        "bellens j."
+      ],
+      "dnfs": [
+        "stromheyer a."
+      ],
+      "p1Points": 41,
+      "p2Points": 46,
+      "p1Details": [
+        {
+          "name": "wyseure j.",
+          "points": 15
+        },
+        {
+          "name": "lejeune g.",
+          "points": 7
+        },
+        {
+          "name": "bellens j.",
+          "points": 2
+        },
+        {
+          "name": "mason c.",
+          "points": 12
+        },
+        {
+          "name": "nieuwenhuis j.",
+          "points": 5
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "janssen w.",
+          "points": 0
+        },
+        {
+          "name": "kuypers g.",
+          "points": 21
+        },
+        {
+          "name": "meeussen w.",
+          "points": 4
+        },
+        {
+          "name": "wyseure j.",
+          "points": 15
+        },
+        {
+          "name": "vandeputte n.",
+          "points": 6
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "wyseure j.",
+          "delta": 2,
+          "newVal": 45
+        },
+        {
+          "name": "michels j.",
+          "delta": 1,
+          "newVal": 32
+        },
+        {
+          "name": "mason c.",
+          "delta": 1,
+          "newVal": 32
+        },
+        {
+          "name": "kuypers g.",
+          "delta": 2,
+          "newVal": 26
+        },
+        {
+          "name": "stromheyer a.",
+          "delta": -1,
+          "newVal": 4
+        },
+        {
+          "name": "lejeune g.",
+          "delta": 1,
+          "newVal": 5
         }
       ]
     }
