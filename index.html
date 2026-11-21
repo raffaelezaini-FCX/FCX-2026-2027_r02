@@ -1669,9 +1669,7 @@ Acquisto: ${inName}`);
             const riderObj = state.riders.find(r => r.name === riderName);
             const currentVal = riderObj ? riderObj.value : '-';
 
-            let ownerName = 'Svincolato';
-            if (state.p1 && state.p1.roster && state.p1.roster.includes(riderName)) ownerName = state.p1.name;
-            else if (state.p2 && state.p2.roster && state.p2.roster.includes(riderName)) ownerName = state.p2.name;
+
 
             // Calcola totali da storico gare
             let totalFcxPts = 0;
@@ -1693,7 +1691,11 @@ Acquisto: ${inName}`);
                     totalFcxPts += fcxPts;
                     totalRankingRacePts += rankPts;
 
-                    let resultLabel = '<span style="color:var(--text-secondary);">Fuori Top 10</span>';
+                    if (posIndex === -1 && !isDnf) {
+                        return;
+                    }
+
+                    let resultLabel = '';
                     if (posIndex !== -1) {
                         resultLabel = `<b style="color:var(--primary);">${posIndex + 1}° posto</b>`;
                     } else if (isDnf) {
@@ -1726,16 +1728,15 @@ Acquisto: ${inName}`);
             const totalRankingPts = initRankingPts + totalRankingRacePts;
 
             summaryEl.innerHTML = `
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:#202020; padding:10px; border-radius:6px; border:1px solid #333; font-size:0.82rem;">
-                    <div>Valore Attuale: <b style="color:var(--primary);">${currentVal} Cr</b></div>
-                    <div>Squadra: <b>${ownerName}</b></div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; background:#202020; padding:10px; border-radius:6px; border:1px solid #333; font-size:0.82rem;">
+                    <div>Valore: <b style="color:var(--primary);">${currentVal} Cr</b></div>
                     <div>Punti FCX: <b style="color:${totalFcxPts >= 0 ? 'var(--secondary)' : 'var(--error)'};">${totalFcxPts} pt</b></div>
-                    <div>Punti Ranking: <b style="color:var(--secondary);">${totalRankingPts} pt</b></div>
+                    <div>Ranking: <b style="color:var(--secondary);">${totalRankingPts} pt</b></div>
                 </div>
             `;
 
             if (raceRows.length === 0) {
-                historyEl.innerHTML = `<p style="color:var(--text-secondary); font-size:0.85rem;">Nessuna gara ancora registrata nello storico.</p>`;
+                historyEl.innerHTML = `<p style="color:var(--text-secondary); font-size:0.85rem;">Nessun piazzamento in Top 10 o ritiro registrato nello storico.</p>`;
             } else {
                 historyEl.innerHTML = raceRows.join('');
             }
