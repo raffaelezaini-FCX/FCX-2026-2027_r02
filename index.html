@@ -351,6 +351,19 @@
 </head>
 <body>
 
+    <!-- SCHERMATA DETTAGLIO CORRIDORE -->
+    <div id="rider-detail-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.92); z-index:9000; overflow-y:auto; padding:15px;">
+        <div class="card" style="max-width:600px; margin:10px auto; border:1px solid var(--primary); background-color:#141414;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
+                <h2 id="rider-detail-title" style="margin:0; border:none; padding:0; text-transform:capitalize; font-size:1.25rem;">Dettaglio Corridore</h2>
+                <button type="button" onclick="closeRiderDetail()" style="width:auto; margin:0; padding:6px 14px; background:#333; color:#fff; font-size:0.85rem;">Chiudi ✕</button>
+            </div>
+            <div id="rider-detail-summary" style="margin-bottom:15px;"></div>
+            <h3 style="font-size:0.95rem; color:var(--secondary); margin-bottom:8px;">Storico Risultati Gare</h3>
+            <div id="rider-detail-history"></div>
+        </div>
+    </div>
+
     <!-- SCHERMATA DI LOGIN INIZIALE -->
     <div id="login-screen">
         <div class="login-card">
@@ -583,9 +596,9 @@
         <!-- TAB RANKING -->
         <div id="tab-ranking" class="tab-content">
             <div class="card">
-                <h2>Ranking</h2>
+                <h2>Ranking Generale</h2>
                 <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
-                    Così calcolato: 10 pt al 1°, 9 al 2°, ..., 1 al 10°.
+                    Classifica indipendente: punti iniziali + punti gara (10 pt al 1°, 9 al 2°, ..., 1 al 10°).
                 </p>
                 <table>
                     <thead>
@@ -914,10 +927,11 @@
                 const ptsColor = r.totalPts > 0 ? 'var(--secondary)' : 'var(--text-secondary)';
                 html += `<tr>
                     <td style="color:var(--text-secondary);">${idx + 1}°</td>
-                    <td>${r.name}</td>
+                    <td onclick="openRiderDetail('${r.name.replace(/'/g, "\'")}')" style="cursor:pointer; text-decoration:underline; text-decoration-color:rgba(116, 245, 72, 0.4);">${r.name}</td>
                     <td style="text-align:right; color:${ptsColor}; font-weight:bold;">${r.totalPts} pt</td>
                 </tr>`;
             });
+
             tbody.innerHTML = html;
         }
 
@@ -956,7 +970,7 @@
 
             ridersWithDetails.forEach(r => {
                 const ptsColor = r.points > 0 ? 'var(--secondary)' : (r.points < 0 ? 'var(--error)' : 'var(--text-secondary)');
-                listinoHtml += `<tr><td>${r.name}</td><td><b>${r.value} Cr</b></td><td style="color:${ptsColor}; font-weight:bold;">${r.points} pt</td></tr>`;
+                listinoHtml += `<tr><td onclick="openRiderDetail('${r.name.replace(/'/g, "\'")}')" style="cursor:pointer; text-decoration:underline; text-decoration-color:rgba(116, 245, 72, 0.4);">${r.name}</td><td><b>${r.value} Cr</b></td><td style="color:${ptsColor}; font-weight:bold;">${r.points} pt</td></tr>`;
             });
             document.getElementById('tb-listino').innerHTML = listinoHtml;
 
@@ -1640,6 +1654,97 @@ Acquisto: ${inName}`);
             
             resetAndRenderMarketOptions();
             switchTab('home');
+        }
+
+        
+        function openRiderDetail(riderName) {
+            const modal = document.getElementById('rider-detail-modal');
+            const titleEl = document.getElementById('rider-detail-title');
+            const summaryEl = document.getElementById('rider-detail-summary');
+            const historyEl = document.getElementById('rider-detail-history');
+
+            titleEl.innerText = riderName;
+
+            // Recupera dati listino (valore e proprietario eventuale)
+            const riderObj = state.riders.find(r => r.name === riderName);
+            const currentVal = riderObj ? riderObj.value : '-';
+
+            let ownerName = 'Svincolato';
+            if (state.p1 && state.p1.roster && state.p1.roster.includes(riderName)) ownerName = state.p1.name;
+            else if (state.p2 && state.p2.roster && state.p2.roster.includes(riderName)) ownerName = state.p2.name;
+
+            // Calcola totali da storico gare
+            let totalFcxPts = 0;
+            let totalRankingRacePts = 0;
+            const initRankingPts = rankingInitialPoints[riderName] || 0;
+
+            const raceRows = [];
+
+            if (state.raceHistory && state.raceHistory.length > 0) {
+                [...state.raceHistory].reverse().forEach(h => {
+                    const top10 = h.top10 || [];
+                    const dnfs = h.dnfs || [];
+                    const posIndex = top10.indexOf(riderName);
+                    const isDnf = dnfs.includes(riderName);
+
+                    const fcxPts = calculateRiderPoints(riderName, h.type, top10, dnfs);
+                    const rankPts = (posIndex !== -1 && posIndex < 10) ? rankingRacePoints[posIndex] : 0;
+
+                    totalFcxPts += fcxPts;
+                    totalRankingRacePts += rankPts;
+
+                    let resultLabel = '<span style="color:var(--text-secondary);">Fuori Top 10</span>';
+                    if (posIndex !== -1) {
+                        resultLabel = `<b style="color:var(--primary);">${posIndex + 1}° posto</b>`;
+                    } else if (isDnf) {
+                        resultLabel = `<b style="color:var(--error);">Ritirato (DNF)</b>`;
+                    }
+
+                    // Variazione valore in quella gara
+                    const pChange = (h.priceChanges || []).find(c => c.name === riderName);
+                    const deltaStr = pChange 
+                        ? `<span class="${pChange.delta > 0 ? 'val-plus' : 'val-minus'}">${pChange.delta > 0 ? '+' : ''}${pChange.delta} Cr</span>` 
+                        : '<span style="color:#666;">0 Cr</span>';
+
+                    const formattedDate = h.date ? h.date.split('-').reverse().join('/') : 'N.D.';
+
+                    raceRows.push(`
+                        <div style="background:#202020; border:1px solid #333; border-radius:6px; padding:10px; margin-bottom:8px;">
+                            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px;">
+                                <b>#${h.id} ${h.name} <span style="color:var(--text-secondary); font-weight:normal;">(${h.type})</span></b>
+                                <span style="color:var(--text-secondary); font-size:0.75rem;">${formattedDate}</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; margin-top:6px;">
+                                <div>Esito: ${resultLabel}</div>
+                                <div>FCX: <b style="color:${fcxPts > 0 ? 'var(--secondary)' : (fcxPts < 0 ? 'var(--error)' : 'var(--text-secondary)')}">${fcxPts > 0 ? '+' : ''}${fcxPts} pt</b> | Δ: ${deltaStr}</div>
+                            </div>
+                        </div>
+                    `);
+                });
+            }
+
+            const totalRankingPts = initRankingPts + totalRankingRacePts;
+
+            summaryEl.innerHTML = `
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:#202020; padding:10px; border-radius:6px; border:1px solid #333; font-size:0.82rem;">
+                    <div>Valore Attuale: <b style="color:var(--primary);">${currentVal} Cr</b></div>
+                    <div>Squadra: <b>${ownerName}</b></div>
+                    <div>Punti FCX: <b style="color:${totalFcxPts >= 0 ? 'var(--secondary)' : 'var(--error)'};">${totalFcxPts} pt</b></div>
+                    <div>Punti Ranking: <b style="color:var(--secondary);">${totalRankingPts} pt</b></div>
+                </div>
+            `;
+
+            if (raceRows.length === 0) {
+                historyEl.innerHTML = `<p style="color:var(--text-secondary); font-size:0.85rem;">Nessuna gara ancora registrata nello storico.</p>`;
+            } else {
+                historyEl.innerHTML = raceRows.join('');
+            }
+
+            modal.style.display = 'block';
+        }
+
+        function closeRiderDetail() {
+            document.getElementById('rider-detail-modal').style.display = 'none';
         }
 
         window.onload = initApp;
