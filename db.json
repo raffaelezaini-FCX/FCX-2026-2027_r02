@@ -289,7 +289,13 @@
       "boros m.",
       "nys t."
     ],
-    "starters": [],
+    "starters": [
+      "janssen w.",
+      "kuypers g.",
+      "meeussen w.",
+      "wyseure j.",
+      "nys t."
+    ],
     "tradeDone": true,
     "initialBudget": 170
   },
