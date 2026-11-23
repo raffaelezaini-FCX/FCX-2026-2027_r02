@@ -270,7 +270,13 @@
       "nieuwenhuis j.",
       "michels j."
     ],
-    "starters": [],
+    "starters": [
+      "wyseure j.",
+      "lejeune g.",
+      "nys t.",
+      "bellens j.",
+      "mason c."
+    ],
     "tradeDone": false,
     "initialBudget": 170
   },
