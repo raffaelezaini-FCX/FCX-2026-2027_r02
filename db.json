@@ -271,8 +271,8 @@
       "michels j."
     ],
     "starters": [
+      "wyseure j.",
       "nys t.",
-      "bellens j.",
       "mason c.",
       "nieuwenhuis j.",
       "michels j."
@@ -293,7 +293,13 @@
       "boros m.",
       "nys t."
     ],
-    "starters": [],
+    "starters": [
+      "orts f.",
+      "janssen w.",
+      "meeussen w.",
+      "wyseure j.",
+      "nys t."
+    ],
     "tradeDone": false,
     "initialBudget": 170
   },
