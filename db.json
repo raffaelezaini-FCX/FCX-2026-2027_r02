@@ -283,15 +283,15 @@
   "p2": {
     "name": "JACOPO",
     "score": 400,
-    "budget": 21,
+    "budget": 11,
     "roster": [
       "orts f.",
-      "janssen w.",
       "kuypers g.",
       "meeussen w.",
       "wyseure j.",
       "boros m.",
-      "nys t."
+      "nys t.",
+      "corsus y."
     ],
     "starters": [
       "orts f.",
@@ -300,7 +300,7 @@
       "wyseure j.",
       "nys t."
     ],
-    "tradeDone": false,
+    "tradeDone": true,
     "initialBudget": 170
   },
   "raceCount": 10,
