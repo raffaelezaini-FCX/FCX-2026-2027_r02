@@ -6,7 +6,7 @@
     },
     {
       "name": "vantourenhout m.",
-      "value": 61
+      "value": 62
     },
     {
       "name": "vandeputte n.",
@@ -26,7 +26,7 @@
     },
     {
       "name": "nys t.",
-      "value": 49
+      "value": 51
     },
     {
       "name": "wyseure j.",
@@ -34,7 +34,7 @@
     },
     {
       "name": "orts f.",
-      "value": 36
+      "value": 37
     },
     {
       "name": "verstrynge e.",
@@ -42,7 +42,7 @@
     },
     {
       "name": "del grosso t.",
-      "value": 30
+      "value": 32
     },
     {
       "name": "aerts t.",
@@ -50,11 +50,11 @@
     },
     {
       "name": "michels j.",
-      "value": 33
+      "value": 34
     },
     {
       "name": "mason c.",
-      "value": 32
+      "value": 33
     },
     {
       "name": "ronhaar p.",
@@ -62,7 +62,7 @@
     },
     {
       "name": "kuypers g.",
-      "value": 27
+      "value": 28
     },
     {
       "name": "vandebosch t.",
@@ -78,7 +78,7 @@
     },
     {
       "name": "meeussen w.",
-      "value": 20
+      "value": 21
     },
     {
       "name": "kuhn k.",
@@ -259,7 +259,7 @@
   ],
   "p1": {
     "name": "BOGI",
-    "score": 502,
+    "score": 568,
     "budget": 4,
     "roster": [
       "wyseure j.",
@@ -270,19 +270,13 @@
       "michels j.",
       "harvey d."
     ],
-    "starters": [
-      "wyseure j.",
-      "nys t.",
-      "mason c.",
-      "nieuwenhuis j.",
-      "michels j."
-    ],
-    "tradeDone": true,
+    "starters": [],
+    "tradeDone": false,
     "initialBudget": 170
   },
   "p2": {
     "name": "JACOPO",
-    "score": 400,
+    "score": 456,
     "budget": 11,
     "roster": [
       "orts f.",
@@ -293,17 +287,11 @@
       "nys t.",
       "corsus y."
     ],
-    "starters": [
-      "orts f.",
-      "kuypers g.",
-      "wyseure j.",
-      "nys t.",
-      "corsus y."
-    ],
-    "tradeDone": true,
+    "starters": [],
+    "tradeDone": false,
     "initialBudget": 170
   },
-  "raceCount": 10,
+  "raceCount": 11,
   "raceHistory": [
     {
       "id": 1,
@@ -1373,6 +1361,113 @@
           "name": "stromheyer a.",
           "delta": -1,
           "newVal": 3
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "type": "Coppa del Mondo",
+      "name": "Ostrava",
+      "date": "2026-11-27",
+      "top10": [
+        "nys t.",
+        "del grosso t.",
+        "vantourenhout m.",
+        "mason c.",
+        "michels j.",
+        "orts f.",
+        "meeussen w.",
+        "kuypers g.",
+        "kuhn k.",
+        "corsus y."
+      ],
+      "dnfs": [],
+      "p1Points": 66,
+      "p2Points": 56,
+      "p1Details": [
+        {
+          "name": "wyseure j.",
+          "points": 0
+        },
+        {
+          "name": "nys t.",
+          "points": 37
+        },
+        {
+          "name": "mason c.",
+          "points": 16
+        },
+        {
+          "name": "nieuwenhuis j.",
+          "points": 0
+        },
+        {
+          "name": "michels j.",
+          "points": 13
+        }
+      ],
+      "p2Details": [
+        {
+          "name": "orts f.",
+          "points": 10
+        },
+        {
+          "name": "kuypers g.",
+          "points": 6
+        },
+        {
+          "name": "wyseure j.",
+          "points": 0
+        },
+        {
+          "name": "nys t.",
+          "points": 37
+        },
+        {
+          "name": "corsus y.",
+          "points": 3
+        }
+      ],
+      "priceChanges": [
+        {
+          "name": "vantourenhout m.",
+          "delta": 1,
+          "newVal": 62
+        },
+        {
+          "name": "nys t.",
+          "delta": 2,
+          "newVal": 51
+        },
+        {
+          "name": "orts f.",
+          "delta": 1,
+          "newVal": 37
+        },
+        {
+          "name": "del grosso t.",
+          "delta": 2,
+          "newVal": 32
+        },
+        {
+          "name": "michels j.",
+          "delta": 1,
+          "newVal": 34
+        },
+        {
+          "name": "mason c.",
+          "delta": 1,
+          "newVal": 33
+        },
+        {
+          "name": "kuypers g.",
+          "delta": 1,
+          "newVal": 28
+        },
+        {
+          "name": "meeussen w.",
+          "delta": 1,
+          "newVal": 21
         }
       ]
     }
